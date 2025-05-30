@@ -1,26 +1,19 @@
 package com.exemple.model;
 
 public class ItemPedido {
-    private int id;
-    private String descricao;
-    private String observacoes;
+    private String nome;
+    private double preco;
 
-    public ItemPedido(int id, String descricao, String observacoes) {
-        this.id = id + 1;
-        this.descricao = descricao;
-        this.observacoes = observacoes;
+    public ItemPedido(String nome, double preco) {
+        this.nome = nome;
+        this.preco = preco;
     }
 
-    public int getId() {
-        return id;
+    public String getNome() {
+        return nome;
     }
 
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public String getObservacoes() {
-        return observacoes;
+    public double getPreco() {
+        return preco;
     }
 }
-

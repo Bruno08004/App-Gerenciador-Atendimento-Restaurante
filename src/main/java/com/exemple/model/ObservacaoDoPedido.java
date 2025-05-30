@@ -6,6 +6,7 @@ public class ObservacaoDoPedido {
     public ObservacaoDoPedido(String texto) {
         this.texto = texto;
     }
+
     public String getTexto() {
         return texto;
     }

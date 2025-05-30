@@ -3,49 +3,62 @@ package com.exemple.model;
 import com.exemple.util.Turno;
 
 public class Garcom {
+    private int id;
     private String nome;
-    private int atendimentosClientes;
-    private int atendimentosGrupos;
-    private final int LIMITE_CLIENTES = 5;
-    private final int LIMITE_GRUPOS = 3;
     private Turno turnoAtual;
+    private FilaDeAtendimento<AtendimentoIndividual> filaAtendimentoCliente;
+    private FilaDeAtendimento<AtendimentoGrupo> filaAtendimentoGrupo;
 
-    public Garcom(String nome) {
+    public Garcom(int id, String nome, Turno turnoAtual) {
+        this.id = id;
         this.nome = nome;
+        this.turnoAtual = turnoAtual;
+        this.filaAtendimentoCliente = new FilaDeAtendimento<>();
+        this.filaAtendimentoGrupo = new FilaDeAtendimento<>();
     }
 
-    public void iniciarNovoTurno(Turno turno) {
-        this.turnoAtual = turno;
-        this.atendimentosClientes = 0;
-        this.atendimentosGrupos = 0;
+    public boolean podeAtenderMaisCliente() {
+        return filaAtendimentoCliente.tamanho() < 5;
     }
 
-    public boolean podeAtender(Atendivel atendivel) {
-        if (atendivel instanceof Cliente) {
-            return atendimentosClientes < LIMITE_CLIENTES;
-        } else if (atendivel instanceof GrupoClientes) {
-            return atendimentosGrupos < LIMITE_GRUPOS;
+    public boolean podeAtenderMaisGrupo() {
+        return filaAtendimentoGrupo.tamanho() < 3;
+    }
+
+    public void iniciarAtendimentoCliente(Cliente cliente) {
+        if (podeAtenderMaisCliente()) {
+            AtendimentoIndividual atendimento = new AtendimentoIndividual(cliente);
+            atendimento.iniciarAtendimento();
+            filaAtendimentoCliente.enfileirar(atendimento);
         }
-        return false;
     }
 
-    public boolean registrarAtendimento(Atendivel atendivel) {
-        if (podeAtender(atendivel)) {
-            if (atendivel instanceof Cliente) {
-                atendimentosClientes++;
-            } else if (atendivel instanceof GrupoClientes) {
-                atendimentosGrupos++;
-            }
-            return true;
+    public void iniciarAtendimentoGrupo(GrupoClientes grupo) {
+        if (podeAtenderMaisGrupo()) {
+            AtendimentoGrupo atendimento = new AtendimentoGrupo(grupo);
+            atendimento.iniciarAtendimento();
+            filaAtendimentoGrupo.enfileirar(atendimento);
         }
-        return false;
     }
 
-    public String getNome() {
-        return nome;
+    public void reordenarFilaClientes() {
+        filaAtendimentoCliente.reordenarPorPrioridade();
+        filaAtendimentoGrupo.reordenarPorPrioridade();
     }
 
     public Turno getTurnoAtual() {
         return turnoAtual;
+    }
+
+    public void setTurnoAtual(Turno turnoAtual) {
+        this.turnoAtual = turnoAtual;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
     }
 }
