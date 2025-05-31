@@ -3,6 +3,8 @@ package com.exemple.controller;
 import com.exemple.model.Atendimento;
 import com.exemple.model.AtendimentoGrupo;
 import com.exemple.model.AtendimentoIndividual;
+import com.exemple.model.Cliente;
+import com.exemple.model.GrupoClientes;
 import com.exemple.model.Garcom;
 import com.exemple.model.ItemPedido;
 import com.exemple.model.ObservacaoDoPedido;
@@ -25,7 +27,7 @@ public class TelaGerenciarPedidoController {
     private Restaurante restaurante;
     private Garcom garcomLogado;
     private Atendimento atendimentoAtual;
-    private Pedido pedidoAtual; // O pedido que está sendo editado/criado
+    private Pedido pedidoAtual;
 
     @FXML
     private Label labelTituloAtendimento;
@@ -41,6 +43,13 @@ public class TelaGerenciarPedidoController {
     private Spinner<Integer> spinnerQuantidade;
     @FXML
     private TextArea textAreaObservacoesItem;
+    @FXML
+    private TextArea textAreaObservacoesCliente;
+    @FXML
+    private Label labelPedidoId;
+    @FXML
+    private Label labelStatusPedido;
+
 
     private ObservableList<ItemPedido> itensCardapioObservableList;
     private ObservableList<ItemPedido> itensPedidoObservableList;
@@ -48,7 +57,6 @@ public class TelaGerenciarPedidoController {
     public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
         itensCardapioObservableList = FXCollections.observableArrayList(restaurante.getCardapio());
-        // Popula o ListView na inicialização, após o setRestaurante
         carregarCardapio();
     }
 
@@ -58,38 +66,37 @@ public class TelaGerenciarPedidoController {
 
     public void setAtendimentoAtual(Atendimento atendimento) {
         this.atendimentoAtual = atendimento;
-        this.pedidoAtual = atendimento.getPedido(); // Pega o pedido existente do atendimento
+        this.pedidoAtual = atendimento.getPedido();
         if (atendimentoAtual instanceof AtendimentoIndividual) {
-            labelTituloAtendimento.setText("Pedido para: " + ((AtendimentoIndividual) atendimentoAtual).getCliente().getNome());
+            Cliente cliente = ((AtendimentoIndividual) atendimentoAtual).getCliente();
+            labelTituloAtendimento.setText("Pedido para: " + cliente.getNome());
+            textAreaObservacoesCliente.setText(cliente.getObservacoesGerais());
         } else if (atendimentoAtual instanceof AtendimentoGrupo) {
-            labelTituloAtendimento.setText("Pedido para: " + ((AtendimentoGrupo) atendimentoAtual).getGrupo().getNomeGrupo());
+            GrupoClientes grupo = ((AtendimentoGrupo) atendimentoAtual).getGrupo();
+            labelTituloAtendimento.setText("Pedido para: " + grupo.getNomeGrupo());
+            textAreaObservacoesCliente.setText(grupo.getObservacoesGerais());
         }
+
+        labelPedidoId.setText("ID do Pedido: " + pedidoAtual.getId());
+        labelStatusPedido.setText("Status do Pedido: " + atendimentoAtual.getStatus().toString());
+
+        // Carrega os itens do pedido existentes, se houver
+        // É importante que itensPedidoObservableList seja inicializado AQUI
+        // e não no initialize(), pois o pedidoAtual pode ainda não estar setado lá.
         itensPedidoObservableList = FXCollections.observableArrayList(pedidoAtual.getItens());
-        atualizarListaItensPedido(); // Popula a lista de itens do pedido
+        listViewItensPedido.setItems(formatarItensPedido(itensPedidoObservableList)); // Configura o ListView com os itens formatados
         atualizarTotalPedido();
     }
 
     @FXML
     public void initialize() {
         spinnerQuantidade.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 99, 1));
-        // O setCellFactory não é estritamente necessário para ListView<String> mas garante comportamento
-        listViewCardapio.setCellFactory(lv -> new ListCell<String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty ? null : item);
-            }
-        });
-        listViewItensPedido.setCellFactory(lv -> new ListCell<String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty ? null : item);
-            }
-        });
 
-        // Listener para o filtro do cardápio
+        // Não é necessário setCellFactory para ListView<String> se você já está adicionando Strings.
+        // O setCellFactory seria útil se você estivesse usando ListView<ItemPedido> e quisesse customizar como ItemPedido é exibido.
+
         filtroCardapio.textProperty().addListener((obs, oldVal, newVal) -> filtrarCardapio(newVal));
+        textAreaObservacoesCliente.setEditable(false);
     }
 
     private void carregarCardapio() {
@@ -104,9 +111,10 @@ public class TelaGerenciarPedidoController {
                 .forEach(item -> listViewCardapio.getItems().add(item.getNome() + " - R$" + String.format("%.2f", item.getPreco())));
     }
 
-    private void atualizarListaItensPedido() {
-        listViewItensPedido.getItems().clear();
-        itensPedidoObservableList.forEach(item -> {
+    // NOVO MÉTODO para formatar a lista de itens para exibição
+    private ObservableList<String> formatarItensPedido(ObservableList<ItemPedido> itens) {
+        ObservableList<String> formattedList = FXCollections.observableArrayList();
+        itens.forEach(item -> {
             StringBuilder itemString = new StringBuilder();
             itemString.append(item.getNome())
                     .append(" (x").append(item.getQuantidade())
@@ -116,12 +124,21 @@ public class TelaGerenciarPedidoController {
                 item.getObservacoes().forEach(obs -> itemString.append(obs.getDescricao()).append("; "));
                 itemString.append("]");
             }
-            listViewItensPedido.getItems().add(itemString.toString());
+            formattedList.add(itemString.toString());
         });
+        return formattedList;
     }
 
+    // Método que agora só se preocupa em ATUALIZAR O LISTVIEW
+    private void atualizarListaItensPedido() {
+        listViewItensPedido.setItems(formatarItensPedido(itensPedidoObservableList));
+    }
+
+
     private void atualizarTotalPedido() {
-        labelTotalPedido.setText("TOTAL: R$ " + String.format("%.2f", pedidoAtual.calcularTotal()));
+        double total = pedidoAtual.calcularTotal();
+        labelTotalPedido.setText("TOTAL: R$ " + String.format("%.2f", total));
+        System.out.println("Valor total do pedido atualizado para: R$" + String.format("%.2f", total)); // Ponto de depuração
     }
 
     @FXML
@@ -141,10 +158,19 @@ public class TelaGerenciarPedidoController {
             int quantidade = spinnerQuantidade.getValue();
             // Cria uma nova instância de ItemPedido para não modificar o objeto original do cardápio
             ItemPedido itemParaPedido = new ItemPedido(itemSelecionado.getNome(), quantidade, itemSelecionado.getPreco());
-            pedidoAtual.adicionarItem(itemParaPedido); // Adiciona ao pedido
-            itensPedidoObservableList.add(itemParaPedido); // Adiciona à lista observável
+
+            // Adiciona ao pedido
+            pedidoAtual.adicionarItem(itemParaPedido);
+
+            // Adiciona à lista observável (Isso deve notificar o ListView automaticamente)
+            itensPedidoObservableList.add(itemParaPedido);
+
+            // Atualiza a exibição do ListView (chama formatarItensPedido novamente para reconstruir a lista de Strings)
             atualizarListaItensPedido();
+
+            // Atualiza o label do total
             atualizarTotalPedido();
+
             new Alert(Alert.AlertType.INFORMATION, itemParaPedido.getNome() + " (x" + quantidade + ") adicionado ao pedido.").showAndWait();
         }
     }
@@ -185,10 +211,8 @@ public class TelaGerenciarPedidoController {
 
     @FXML
     public void handleConfirmarPedido(ActionEvent event) {
-        // Pedido já está sendo atualizado em tempo real à medida que itens são adicionados.
-        // Este botão serve mais para um feedback final ao garçom ou para fechar a tela.
         new Alert(Alert.AlertType.INFORMATION, "Pedido atualizado e salvo!").showAndWait();
-        handleVoltar(event); // Volta para a tela de atendimentos
+        handleVoltar(event);
     }
 
     @FXML

@@ -1,61 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.control.Spinner?>
-<?import javafx.scene.control.TextArea?>
 
-<VBox alignment="TOP_CENTER" spacing="15.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.exemple.controller.TelaGerenciarPedidoController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-
-    <Label fx:id="labelTituloAtendimento" text="Pedido para: [Cliente/Grupo]" style="-fx-text-fill: #333333;">
-        <font>
-            <Font size="24.0" />
-        </font>
-        <VBox.margin>
-            <Insets bottom="10.0" />
-        </VBox.margin>
-    </Label>
-
-    <HBox spacing="20.0" alignment="TOP_CENTER">
-        <VBox spacing="10.0" alignment="TOP_CENTER" style="-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-padding: 10;">
-            <Label text="Cardápio Disponível:" style="-fx-font-weight: bold;" />
-            <ListView fx:id="listViewCardapio" prefHeight="200.0" prefWidth="250.0" />
-            <TextField fx:id="filtroCardapio" promptText="Filtrar cardápio..." prefWidth="250.0" />
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.exemple.controller.TelaGerenciarPedidoController">
+    <children>
+        <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="800.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <padding>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <children>
+                <Label fx:id="labelTituloAtendimento" text="Gerenciar Pedido" textFill="#2f4f4f">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Label>
+                <HBox alignment="CENTER_LEFT" spacing="20.0">
+                    <children>
+                        <Label fx:id="labelPedidoId" text="ID do Pedido: -" textFill="#2f4f4f">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="labelStatusPedido" text="Status do Pedido: -" textFill="#2f4f4f">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+                <Label text="Observações do Cliente/Grupo:" textFill="#2f4f4f">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <TextArea fx:id="textAreaObservacoesCliente" editable="false" prefHeight="70.0" prefWidth="200.0" promptText="Nenhuma observação geral do cliente/grupo." wrapText="true" />
+                <Separator prefWidth="200.0" />
+                <HBox prefHeight="300.0" prefWidth="760.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label text="Cardápio" textFill="#2f4f4f">
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                </Label>
+                                <TextField fx:id="filtroCardapio" promptText="Filtrar cardápio..." />
+                                <ListView fx:id="listViewCardapio" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                    <children>
+                                        <Spinner fx:id="spinnerQuantidade" prefWidth="80.0" />
+                                        <Button mnemonicParsing="false" onAction="#handleAdicionarItem" text="Adicionar ao Pedido" />
+                                    </children>
+                                </HBox>
+                                <Label text="Observações para o Item Selecionado:" textFill="#2f4f4f">
+                                    <font>
+                                        <Font name="System Bold" size="14.0" />
+                                    </font>
+                                </Label>
+                                <TextArea fx:id="textAreaObservacoesItem" prefHeight="50.0" prefWidth="200.0" promptText="Ex: Sem cebola, bem passado..." wrapText="true" />
+                                <Button mnemonicParsing="false" onAction="#handleAdicionarObservacaoItem" text="Adicionar Observação ao Item" />
+                            </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label text="Itens do Pedido" textFill="#2f4f4f">
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                </Label>
+                                <ListView fx:id="listViewItensPedido" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                <Label fx:id="labelTotalPedido" text="TOTAL: R$ 0.00" textFill="#2f4f4f">
+                                    <font>
+                                        <Font name="System Bold" size="16.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER" spacing="20.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#handleConfirmarPedido" style="-fx-background-color: #4CAF50;" text="Confirmar Pedido" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleVoltar" style="-fx-background-color: #f44336;" text="Voltar" textFill="WHITE">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
         </VBox>
-
-        <VBox spacing="10.0" alignment="TOP_CENTER" style="-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-padding: 10;">
-            <Label text="Itens no Pedido:" style="-fx-font-weight: bold;" />
-            <ListView fx:id="listViewItensPedido" prefHeight="200.0" prefWidth="250.0" />
-            <Label fx:id="labelTotalPedido" text="TOTAL: R$ 0.00" style="-fx-font-weight: bold; -fx-font-size: 16px; -fx-text-fill: #0066cc;" />
-        </VBox>
-    </HBox>
-
-    <HBox spacing="15.0" alignment="CENTER">
-        <Label text="Qtd:" style="-fx-font-weight: bold;" />
-        <Spinner fx:id="spinnerQuantidade" min="1" max="99" initialValue="1" prefWidth="70.0" />
-        <Button onAction="#handleAdicionarItem" text="Adicionar Item ao Pedido" prefHeight="35.0" prefWidth="200.0" style="-fx-font-size: 14px;" />
-    </HBox>
-
-    <VBox spacing="5.0" alignment="CENTER_LEFT">
-        <Label text="Observações para o item selecionado:" style="-fx-font-weight: bold;" />
-        <TextArea fx:id="textAreaObservacoesItem" promptText="Ex: Sem cebola, bem passado..." wrapText="true" prefHeight="60.0" prefWidth="500.0" />
-        <Button onAction="#handleAdicionarObservacaoItem" text="Adicionar Observação ao Item" prefHeight="30.0" prefWidth="250.0" style="-fx-font-size: 13px;" />
-    </VBox>
-
-
-    <Button onAction="#handleConfirmarPedido" text="Confirmar Pedido" prefHeight="40.0" prefWidth="200.0" style="-fx-font-size: 14px;">
-        <VBox.margin>
-            <Insets top="15.0" />
-        </VBox.margin>
-    </Button>
-    <Button onAction="#handleVoltar" text="Voltar para Atendimentos" prefHeight="35.0" prefWidth="200.0" style="-fx-font-size: 14px;" />
-</VBox>
+    </children>
+</AnchorPane>
