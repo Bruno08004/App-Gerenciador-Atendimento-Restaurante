@@ -1,4 +1,4 @@
-package com.exemple.util;
+package com.example.util;
 
 public enum Turno {
     MANHA, TARDE, NOITE

@@ -1,4 +1,4 @@
-package com.exemple.model;
+package com.example.model;
 
 public class AtendimentoIndividual extends Atendimento {
     private Cliente cliente;

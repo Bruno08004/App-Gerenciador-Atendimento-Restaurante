@@ -1,6 +1,6 @@
-package com.exemple.model;
+package com.example.model;
 
-import com.exemple.util.Status;
+import com.example.util.Status;
 
 import java.time.Duration;
 import java.time.LocalTime;

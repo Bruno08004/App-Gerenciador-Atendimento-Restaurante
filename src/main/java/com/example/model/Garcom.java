@@ -1,6 +1,6 @@
-package com.exemple.model;
+package com.example.model;
 
-import com.exemple.util.Turno;
+import com.example.util.Turno;
 
 public class Garcom {
     private final int id;

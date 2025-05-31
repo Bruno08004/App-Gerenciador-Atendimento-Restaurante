@@ -1,6 +1,6 @@
-package com.exemple.model;
+package com.example.model;
 
-import com.exemple.util.TipoCliente;
+import com.example.util.TipoCliente;
 
 import java.time.LocalTime;
 import java.util.ArrayList;

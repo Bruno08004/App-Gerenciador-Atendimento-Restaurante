@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="view.TelaAtendimento"
-            prefHeight="400.0" prefWidth="600.0">
+<VBox alignment="TOP_CENTER" spacing="10.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.example.controller.TelaAtendimentoController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
 
-</AnchorPane>
+    <Label text="Gerenciamento de Atendimento">
+        <font>
+            <Font size="20.0" />
+        </font>
+    </Label>
+
+    <HBox spacing="10.0" alignment="CENTER_LEFT">
+        <VBox spacing="5.0">
+            <Label text="Fila de Espera:" />
+            <ListView fx:id="listViewFilaEspera" prefHeight="150.0" prefWidth="250.0" />
+        </VBox>
+        <VBox spacing="5.0">
+            <Label text="Atendimentos em Andamento:" />
+            <ListView fx:id="listViewAtendimentosEmAndamento" prefHeight="150.0" prefWidth="250.0" />
+        </VBox>
+    </HBox>
+
+
+    <HBox spacing="10.0" alignment="CENTER">
+        <Button onAction="#handleNovoCliente" text="Novo Cliente" />
+        <Button onAction="#handleNovoGrupo" text="Novo Grupo" />
+    </HBox>
+
+    <HBox spacing="10.0" alignment="CENTER">
+        <Button onAction="#handleDistribuirAtendimento" text="Distribuir Atendimento" />
+        <Button onAction="#handleReordenarFila" text="Reordenar Fila" />
+        <Button onAction="#handleFinalizarAtendimento" text="Finalizar Atendimento" />
+    </HBox>
+
+    <Button onAction="#handleVoltar" text="Voltar ao Menu Principal" />
+</VBox>
