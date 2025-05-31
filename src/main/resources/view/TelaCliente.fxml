@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+
+<?import javafx.scene.control.ComboBox?>
+<VBox alignment="CENTER" spacing="15.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.exemple.controller.TelaClienteController">
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
+
+    <Label text="Sou Cliente" style="-fx-text-fill: #333333;">
+        <font>
+            <Font size="24.0" />
+        </font>
+        <VBox.margin>
+            <Insets bottom="10.0" />
+        </VBox.margin>
+    </Label>
+
+    <Label text="Registrar Minha Chegada:" style="-fx-font-weight: bold;"/>
+    <HBox spacing="10" alignment="CENTER">
+        <TextField fx:id="nomeField" promptText="Seu Nome" prefWidth="150"/>
+        <ComboBox fx:id="tipoComboBox" promptText="Tipo" prefWidth="100"/>
+        <Button onAction="#handleRegistrarChegada" text="Registrar Chegada Individual" prefHeight="30.0"/>
+    </HBox>
+    <Button onAction="#handleRegistrarGrupo" text="Registrar Chegada de Grupo" prefHeight="30.0" prefWidth="250.0"/>
+
+    <Label text="Acompanhar Meu Pedido:" style="-fx-font-weight: bold;">
+        <VBox.margin>
+            <Insets top="20.0" />
+        </VBox.margin>
+    </Label>
+    <HBox spacing="10" alignment="CENTER">
+        <TextField fx:id="pedidoIdField" promptText="ID do Pedido" prefWidth="150"/>
+        <Button onAction="#handleBuscarPedido" text="Buscar Pedido" prefHeight="30.0"/>
+    </HBox>
+
+    <Label fx:id="labelStatusPedido" text="Status: -" style="-fx-font-weight: bold; -fx-text-fill: #0066cc;" />
+    <TextArea fx:id="textAreaDetalhesPedido" editable="false" wrapText="true" prefHeight="150.0" prefWidth="400.0" promptText="Detalhes do pedido aparecerão aqui." />
+
+
+    <Button onAction="#handleVoltarMenuPrincipal" text="Voltar ao Menu Principal" prefHeight="35.0" prefWidth="200.0" >
+        <VBox.margin>
+            <Insets top="20.0" />
+        </VBox.margin>
+    </Button>
+</VBox>

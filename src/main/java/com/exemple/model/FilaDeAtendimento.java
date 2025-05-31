@@ -1,0 +1,50 @@
+package com.exemple.model;
+
+import com.exemple.util.Status;
+
+import java.util.*;
+
+public class FilaDeAtendimento<T extends Atendimento> {
+    private PriorityQueue<Atendimento> fila;
+
+    public FilaDeAtendimento() {
+        this.fila = new PriorityQueue<>(Comparator.comparing(a -> a.getStatus().ordinal()));
+    }
+
+    public void adicionarAtendimento(Atendimento atendimento) {
+        fila.add(atendimento);
+    }
+
+    public Atendimento removerAtendimento() {
+        return fila.poll();
+    }
+
+    public void removerAtendimentoEspecifico(Atendimento atendimento) {
+        fila.remove(atendimento);
+        reordenarFila();
+    }
+
+    public int contarAtendimentosAtivos() {
+        return (int) fila.stream()
+                .filter(a -> a.getStatus() != Status.FINALIZADO)
+                .count();
+    }
+
+    public void limparFila() {
+        fila.clear();
+    }
+
+    public int tamanho() {
+        return fila.size();
+    }
+
+    public void reordenarFila() {
+        List<Atendimento> lista = new ArrayList<>(fila);
+        fila.clear();
+        fila.addAll(lista);
+    }
+
+    public PriorityQueue<Atendimento> getFila() {
+        return fila;
+    }
+}
