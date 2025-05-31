@@ -1,13 +1,11 @@
 package com.exemple.model;
 
 public class ObservacaoDoPedido {
-    private String texto;
+    private String descricao;
 
-    public ObservacaoDoPedido(String texto) {
-        this.texto = texto;
+    public ObservacaoDoPedido(String descricao) {
+        this.descricao = descricao;
     }
 
-    public String getTexto() {
-        return texto;
-    }
+    public String getDescricao() { return descricao; }
 }

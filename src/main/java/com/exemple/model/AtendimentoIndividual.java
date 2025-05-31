@@ -1,15 +1,13 @@
 package com.exemple.model;
 
-import com.exemple.util.Status;
-
 public class AtendimentoIndividual extends Atendimento {
     private Cliente cliente;
 
-    public AtendimentoIndividual(Cliente cliente) {
+    public AtendimentoIndividual(Cliente cliente, Pedido pedido) {
+        super(pedido);
+        if (cliente == null) throw new IllegalArgumentException("Cliente não pode ser nulo.");
         this.cliente = cliente;
-        this.status = Status.AGUARDANDO_PEDIDO;
     }
-
 
     public Cliente getCliente() {
         return cliente;

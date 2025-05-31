@@ -5,16 +5,21 @@ import com.exemple.util.Turno;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Representa um restaurante com garçons, cardápio e controle de turnos.
+ */
 public class Restaurante {
-    private String nome;
-    private List<Garcom> garcons;
-    private List<ItemPedido> cardapio;
+    private final String nome;
+    private final List<Garcom> garcons;
+    private final List<ItemPedido> cardapio;
+    private final List<Atendimento> historicoAtendimentos;
     private Turno turnoAtual;
 
     public Restaurante(String nome) {
         this.nome = nome;
         this.garcons = new ArrayList<>();
         this.cardapio = new ArrayList<>();
+        this.historicoAtendimentos = new ArrayList<>();
     }
 
     public void iniciarTurno(Turno turno) {
@@ -56,6 +61,21 @@ public class Restaurante {
         }
     }
 
+    public void registrarAtendimentoFinalizado(Atendimento atendimento) {
+        historicoAtendimentos.add(atendimento);
+    }
+
+    public void verificarEsperaExcessiva() {
+        for (Garcom g : garcons) {
+            for (Atendimento grupo : g.getFilaAtendimentoGrupo().getFila()) {
+                if (grupo.tempoDeEsperaMinutos() > 20) {
+                    System.out.println("Alerta: Grupo esperando há mais de 20 minutos: " + grupo.getGrupo().getId());
+                }
+            }
+        }
+    }
+
+    // Métodos auxiliares
     public void adicionarGarcom(Garcom garcom) {
         garcons.add(garcom);
     }
@@ -64,6 +84,7 @@ public class Restaurante {
         cardapio.add(item);
     }
 
+    // Getters
     public List<ItemPedido> getCardapio() {
         return cardapio;
     }
@@ -78,5 +99,9 @@ public class Restaurante {
 
     public Turno getTurnoAtual() {
         return turnoAtual;
+    }
+
+    public List<Atendimento> getHistoricoAtendimentos() {
+        return historicoAtendimentos;
     }
 }

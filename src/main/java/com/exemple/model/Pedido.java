@@ -4,33 +4,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pedido {
+    private static int contador = 0;
     private int id;
-    private List<ItemPedido> itens;
-    private List<ObservacaoDoPedido> observacoes;
+    private List<String> itens;
 
-    public Pedido(int id) {
-        this.id = id;
+    public Pedido() {
+        this.id = ++contador;
         this.itens = new ArrayList<>();
-        this.observacoes = new ArrayList<>();
-    }
-
-    public void adicionarItem(ItemPedido item) {
-        itens.add(item);
-    }
-
-    public void adicionarObservacao(ObservacaoDoPedido observacao) {
-        observacoes.add(observacao);
-    }
-
-    public List<ItemPedido> getItens() {
-        return itens;
-    }
-
-    public List<ObservacaoDoPedido> getObservacoes() {
-        return observacoes;
     }
 
     public int getId() {
         return id;
+    }
+
+    public List<String> getItens() {
+        return itens;
+    }
+
+    public void adicionarItem(String item) {
+        if (item != null && !item.isEmpty()) {
+            itens.add(item);
+        }
+    }
+
+    public void removerItem(String item) {
+        itens.remove(item);
+    }
+
+    public double calcularTotal() {
+        return itens.stream().mapToDouble(ItemPedido::calcularSubtotal).sum();
     }
 }

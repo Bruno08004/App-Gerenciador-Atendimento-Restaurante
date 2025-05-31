@@ -14,11 +14,7 @@ public class Cardapio {
         itens.add(item);
     }
 
-    public void removerItem(ItemPedido item) {
-        itens.remove(item);
-    }
-
-    public List<ItemPedido> getItens() {
-        return itens;
+    public ItemPedido buscarItem(String nome) {
+        return itens.stream().filter(i -> i.getNome().equalsIgnoreCase(nome)).findFirst().orElse(null);
     }
 }

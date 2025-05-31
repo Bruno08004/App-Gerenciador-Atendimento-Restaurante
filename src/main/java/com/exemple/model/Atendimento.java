@@ -3,39 +3,59 @@ package com.exemple.model;
 import com.exemple.util.Status;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public abstract class Atendimento {
-    protected Pedido pedido;
-    protected Duration tempoDeEspera;
-    protected Duration tempoDeAtendimento;
-    protected Status status;
-    protected LocalDateTime inicio;
-    protected LocalDateTime fim;
+    private Pedido pedido;
+    private Duration tempoDeEspera;
+    private Duration tempoDeAtendimento;
+    private Status status;
+    private LocalTime inicio;
+    private LocalTime fim;
 
-    public void iniciarAtendimento() {
-        inicio = LocalDateTime.now();
-        status = Status.COMENDO;
+    public Atendimento(Pedido pedido) {
+        if (pedido == null) throw new IllegalArgumentException("Pedido não pode ser nulo.");
+        this.pedido = pedido;
+        this.status = Status.AGUARDANDO;
+    }
+
+    public void iniciarAtendimento(LocalTime horaChegada) {
+        this.inicio = LocalTime.now();
+        this.tempoDeEspera = Duration.between(horaChegada, inicio);
+        this.status = Status.EM_ATENDIMENTO;
     }
 
     public void finalizarAtendimento() {
-        fim = LocalDateTime.now();
-        tempoDeAtendimento = Duration.between(inicio, fim);
-        status = Status.FINALIZADO;
+        this.fim = LocalTime.now();
+        this.tempoDeAtendimento = Duration.between(inicio, fim);
+        this.status = Status.FINALIZADO;
     }
 
     public Duration calcularTempoTotal() {
-        if (inicio != null && fim != null) {
-            return Duration.between(inicio, fim).plus(tempoDeEspera);
-        }
-        return Duration.ZERO;
+        return Duration.between(inicio, fim);
     }
 
-    public void alteraStatus(Status novoStatus) {
-        this.status = novoStatus;
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public Duration getTempoDeEspera() {
+        return tempoDeEspera;
+    }
+
+    public Duration getTempoDeAtendimento() {
+        return tempoDeAtendimento;
     }
 
     public Status getStatus() {
         return status;
+    }
+
+    public LocalTime getInicio() {
+        return inicio;
+    }
+
+    public LocalTime getFim() {
+        return fim;
     }
 }

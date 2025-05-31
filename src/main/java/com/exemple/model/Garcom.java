@@ -3,11 +3,12 @@ package com.exemple.model;
 import com.exemple.util.Turno;
 
 public class Garcom {
-    private int id;
-    private String nome;
+    private final int id;
+    private final String nome;
     private Turno turnoAtual;
-    private FilaDeAtendimento<AtendimentoIndividual> filaAtendimentoCliente;
-    private FilaDeAtendimento<AtendimentoGrupo> filaAtendimentoGrupo;
+
+    private final FilaDeAtendimento<AtendimentoIndividual> filaAtendimentoCliente;
+    private final FilaDeAtendimento<AtendimentoGrupo> filaAtendimentoGrupo;
 
     public Garcom(int id, String nome, Turno turnoAtual) {
         this.id = id;
@@ -43,9 +44,13 @@ public class Garcom {
 
     public void reordenarFilaClientes() {
         filaAtendimentoCliente.reordenarPorPrioridade();
+    }
+
+    public void reordenarFilaGrupos() {
         filaAtendimentoGrupo.reordenarPorPrioridade();
     }
 
+    // Getters
     public Turno getTurnoAtual() {
         return turnoAtual;
     }
@@ -60,5 +65,13 @@ public class Garcom {
 
     public String getNome() {
         return nome;
+    }
+
+    public FilaDeAtendimento<AtendimentoIndividual> getFilaAtendimentoCliente() {
+        return filaAtendimentoCliente;
+    }
+
+    public FilaDeAtendimento<AtendimentoGrupo> getFilaAtendimentoGrupo() {
+        return filaAtendimentoGrupo;
     }
 }

@@ -1,21 +1,19 @@
 package com.exemple.model;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class FilaDeAtendimento<T extends Atendimento> {
-    private Queue<T> fila;
+    private PriorityQueue<Atendimento> fila;
 
     public FilaDeAtendimento() {
-        this.fila = new LinkedList<>();
+        this.fila = new PriorityQueue<>(Comparator.comparing(a -> a.getStatus().ordinal()));
     }
 
-    public void enfileirar(T atendimento) {
-        fila.offer(atendimento);
+    public void adicionarAtendimento(Atendimento atendimento) {
+        fila.add(atendimento);
     }
 
-    public T desenfileirar() {
+    public Atendimento removerAtendimento() {
         return fila.poll();
     }
 
@@ -23,24 +21,13 @@ public class FilaDeAtendimento<T extends Atendimento> {
         return fila.size();
     }
 
-    public void reordenarPorPrioridade() {
-        if (fila.isEmpty()) return;
-
-        var listaOrdenada = new LinkedList<>(fila);
-        listaOrdenada.sort(Comparator.comparingInt(atendimento -> {
-            if (atendimento instanceof AtendimentoIndividual) {
-                return ((AtendimentoIndividual) atendimento).getCliente().getPrioridade();
-            } else if (atendimento instanceof AtendimentoGrupo) {
-                return ((AtendimentoGrupo) atendimento).getGrupo().getPrioridade();
-            }
-            return Integer.MAX_VALUE;
-        }));
-
+    public void reordenarFila() {
+        List<Atendimento> lista = new ArrayList<>(fila);
         fila.clear();
-        fila.addAll(listaOrdenada);
+        fila.addAll(lista);
     }
 
-    public Queue<T> getFila() {
+    public PriorityQueue<Atendimento> getFila() {
         return fila;
     }
 }
