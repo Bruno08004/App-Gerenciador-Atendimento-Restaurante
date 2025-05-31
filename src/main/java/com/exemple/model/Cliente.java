@@ -2,6 +2,7 @@ package com.exemple.model;
 
 import com.exemple.util.TipoCliente;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ public class Cliente implements Atendivel{
     private String nome;
     private TipoCliente tipo;
     private List<String> preferencias;
+    private LocalTime horaChegada;
 
     public Cliente(int id, String nome, TipoCliente tipo) {
         this.id = id;
@@ -43,5 +45,13 @@ public class Cliente implements Atendivel{
 
     public void removerPreferencia(String item) {
         preferencias.remove(item);
+    }
+
+    public LocalTime getHoraChegada() {
+        return horaChegada;
+    }
+
+    public void setHoraChegada(LocalTime horaChegada) {
+        this.horaChegada = horaChegada;
     }
 }

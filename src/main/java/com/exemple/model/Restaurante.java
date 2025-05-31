@@ -5,9 +5,6 @@ import com.exemple.util.Turno;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Representa um restaurante com garçons, cardápio e controle de turnos.
- */
 public class Restaurante {
     private final String nome;
     private final List<Garcom> garcons;
@@ -16,6 +13,9 @@ public class Restaurante {
     private Turno turnoAtual;
 
     public Restaurante(String nome) {
+        if (nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("Nome do restaurante não pode ser nulo ou vazio.");
+        }
         this.nome = nome;
         this.garcons = new ArrayList<>();
         this.cardapio = new ArrayList<>();
@@ -23,6 +23,7 @@ public class Restaurante {
     }
 
     public void iniciarTurno(Turno turno) {
+        if (turno == null) throw new IllegalArgumentException("Turno não pode ser nulo.");
         this.turnoAtual = turno;
         for (Garcom g : garcons) {
             g.setTurnoAtual(turno);
@@ -36,63 +37,64 @@ public class Restaurante {
         this.turnoAtual = null;
     }
 
+    public void adicionarGarcom(Garcom garcom) {
+        if (garcom == null) throw new IllegalArgumentException("Garçom não pode ser nulo.");
+        garcons.add(garcom);
+    }
+
     public Garcom buscarGarcomPorId(int id) {
-        for (Garcom g : garcons) {
-            if (g.getId() == id) return g;
-        }
-        return null;
+        return garcons.stream().filter(g -> g.getId() == id).findFirst().orElse(null);
     }
 
-    public void distribuirCliente(Cliente cliente) {
-        for (Garcom g : garcons) {
-            if (g.podeAtenderMaisCliente()) {
-                g.iniciarAtendimentoCliente(cliente);
-                break;
+    public void distribuirAtendimento(Atendivel atendivel) {
+        if (atendivel instanceof Cliente cliente) {
+            for (Garcom g : garcons) {
+                if (g.podeAtenderMaisClientesIndividuais()) {
+                    g.atenderCliente(cliente);
+                    return;
+                }
             }
-        }
-    }
-
-    public void distribuirGrupo(GrupoClientes grupo) {
-        for (Garcom g : garcons) {
-            if (g.podeAtenderMaisGrupo()) {
-                g.iniciarAtendimentoGrupo(grupo);
-                break;
+        } else if (atendivel instanceof GrupoClientes grupo) {
+            for (Garcom g : garcons) {
+                if (g.podeAtenderMaisGrupos()) {
+                    g.atenderGrupo(grupo);
+                    return;
+                }
             }
+        } else {
+            throw new IllegalArgumentException("Tipo de atendível desconhecido.");
         }
     }
 
     public void registrarAtendimentoFinalizado(Atendimento atendimento) {
-        historicoAtendimentos.add(atendimento);
-    }
-
-
-    // Métodos auxiliares
-    public void adicionarGarcom(Garcom garcom) {
-        garcons.add(garcom);
+        if (atendimento != null) {
+            historicoAtendimentos.add(atendimento);
+        }
     }
 
     public void adicionarAoCardapio(ItemPedido item) {
+        if (item == null) throw new IllegalArgumentException("Item do cardápio não pode ser nulo.");
         cardapio.add(item);
     }
 
     // Getters
-    public List<ItemPedido> getCardapio() {
-        return cardapio;
-    }
-
-    public List<Garcom> getGarcons() {
-        return garcons;
-    }
-
     public String getNome() {
         return nome;
     }
 
-    public Turno getTurnoAtual() {
-        return turnoAtual;
+    public List<Garcom> getGarcons() {
+        return new ArrayList<>(garcons);
+    }
+
+    public List<ItemPedido> getCardapio() {
+        return new ArrayList<>(cardapio);
     }
 
     public List<Atendimento> getHistoricoAtendimentos() {
-        return historicoAtendimentos;
+        return new ArrayList<>(historicoAtendimentos);
+    }
+
+    public Turno getTurnoAtual() {
+        return turnoAtual;
     }
 }

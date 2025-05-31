@@ -7,58 +7,57 @@ public class Garcom {
     private final String nome;
     private Turno turnoAtual;
 
-    private final FilaDeAtendimento<AtendimentoIndividual> filaAtendimentoCliente;
+    private final FilaDeAtendimento<AtendimentoIndividual> filaAtendimentoIndividual;
     private final FilaDeAtendimento<AtendimentoGrupo> filaAtendimentoGrupo;
 
     public Garcom(int id, String nome, Turno turnoAtual) {
+        if (nome == null || nome.isBlank()) throw new IllegalArgumentException("Nome do garçom não pode ser vazio.");
         this.id = id;
         this.nome = nome;
         this.turnoAtual = turnoAtual;
-        this.filaAtendimentoCliente = new FilaDeAtendimento<>();
+        this.filaAtendimentoIndividual = new FilaDeAtendimento<>();
         this.filaAtendimentoGrupo = new FilaDeAtendimento<>();
     }
 
-    public boolean podeAtenderMaisCliente() {
-        return filaAtendimentoCliente.tamanho() < 5;
+    public boolean podeAtenderMaisClientesIndividuais() {
+        return filaAtendimentoIndividual.tamanho() < 5;
     }
 
-    public boolean podeAtenderMaisGrupo() {
+    public boolean podeAtenderMaisGrupos() {
         return filaAtendimentoGrupo.tamanho() < 3;
     }
 
-    public void iniciarAtendimentoCliente(Cliente cliente) {
-        if (podeAtenderMaisCliente()) {
-            Atendimento atendimento = new AtendimentoIndividual(cliente);
-            atendimento.iniciarAtendimento();
-            filaAtendimentoCliente.adicionarAtendimento(atendimento);
+    public void atenderCliente(Cliente cliente) {
+        if (!podeAtenderMaisClientesIndividuais()) {
+            System.out.println("Limite de atendimentos individuais atingido.");
+            return;
         }
+        Pedido pedido = new Pedido();
+        AtendimentoIndividual atendimento = new AtendimentoIndividual(cliente, pedido);
+        atendimento.iniciarAtendimento(cliente.getHoraChegada());
+        filaAtendimentoIndividual.adicionarAtendimento(atendimento);
     }
 
-    public void iniciarAtendimentoGrupo(GrupoClientes grupo) {
-        if (podeAtenderMaisGrupo()) {
-            AtendimentoGrupo atendimento = new AtendimentoGrupo(grupo);
-            atendimento.iniciarAtendimento();
-            filaAtendimentoGrupo.enfileirar(atendimento);
+    public void atenderGrupo(GrupoClientes grupo) {
+        if (!podeAtenderMaisGrupos()) {
+            System.out.println("Limite de atendimentos em grupo atingido.");
+            return;
         }
+        Pedido pedido = new Pedido();
+        AtendimentoGrupo atendimento = new AtendimentoGrupo(grupo, pedido);
+        atendimento.iniciarAtendimento(grupo.getHoraChegada());
+        filaAtendimentoGrupo.adicionarAtendimento(atendimento);
     }
 
-    public void reordenarFilaClientes() {
-        filaAtendimentoCliente.reordenarPorPrioridade();
+    public void reordenarFilaIndividuais() {
+        filaAtendimentoIndividual.reordenarFila();
     }
 
     public void reordenarFilaGrupos() {
-        filaAtendimentoGrupo.reordenarPorPrioridade();
+        filaAtendimentoGrupo.reordenarFila();
     }
 
-    // Getters
-    public Turno getTurnoAtual() {
-        return turnoAtual;
-    }
-
-    public void setTurnoAtual(Turno turnoAtual) {
-        this.turnoAtual = turnoAtual;
-    }
-
+    // Getters e Setters
     public int getId() {
         return id;
     }
@@ -67,8 +66,16 @@ public class Garcom {
         return nome;
     }
 
-    public FilaDeAtendimento<AtendimentoIndividual> getFilaAtendimentoCliente() {
-        return filaAtendimentoCliente;
+    public Turno getTurnoAtual() {
+        return turnoAtual;
+    }
+
+    public void setTurnoAtual(Turno turnoAtual) {
+        this.turnoAtual = turnoAtual;
+    }
+
+    public FilaDeAtendimento<AtendimentoIndividual> getFilaAtendimentoIndividual() {
+        return filaAtendimentoIndividual;
     }
 
     public FilaDeAtendimento<AtendimentoGrupo> getFilaAtendimentoGrupo() {

@@ -6,7 +6,7 @@ import java.util.List;
 public class Pedido {
     private static int contador = 0;
     private int id;
-    private List<String> itens;
+    private List<ItemPedido> itens;
 
     public Pedido() {
         this.id = ++contador;
@@ -17,21 +17,23 @@ public class Pedido {
         return id;
     }
 
-    public List<String> getItens() {
+    public List<ItemPedido> getItens() {
         return itens;
     }
 
-    public void adicionarItem(String item) {
-        if (item != null && !item.isEmpty()) {
+    public void adicionarItem(ItemPedido item) {
+        if (item != null && !itens.isEmpty()) {
             itens.add(item);
         }
     }
 
-    public void removerItem(String item) {
+    public void removerItem(ItemPedido item) {
         itens.remove(item);
     }
 
     public double calcularTotal() {
-        return itens.stream().mapToDouble(ItemPedido::calcularSubtotal).sum();
+        return itens.stream()
+                .mapToDouble(ItemPedido::calcularSubtotal)  // Lambda
+                .sum();
     }
 }

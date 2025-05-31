@@ -20,7 +20,7 @@ public class ItemPedido {
         observacoes.add(obs);
     }
 
-    public double calcularSubtotal() {
+    public  double calcularSubtotal() {
         return quantidade * preco;
     }
 

@@ -2,6 +2,7 @@ package com.exemple.model;
 
 import com.exemple.util.TipoCliente;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ public class GrupoClientes implements Atendivel {
     private String nomeGrupo;
     private List<Cliente> clientes;
     private List<Pedido> pedidos;
+    private LocalTime horaChegada;
 
     public GrupoClientes(int id, String nomeGrupo) {
         this.id = id;
@@ -57,5 +59,13 @@ public class GrupoClientes implements Atendivel {
     @Override
     public List<String> getPreferencias() {
         return clientes.stream().flatMap(c -> c.getPreferencias().stream()).distinct().toList();
+    }
+
+    public LocalTime getHoraChegada() {
+        return horaChegada;
+    }
+
+    public void setHoraChegada(LocalTime horaChegada) {
+        this.horaChegada = horaChegada;
     }
 }

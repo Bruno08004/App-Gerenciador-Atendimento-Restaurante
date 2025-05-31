@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
+<?import javax.swing.table.TableColumn?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Button?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.exemple.controller.TelaGarconsController">
+    <VBox spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10">
+        <Label text="Garçons Cadastrados" />
+        <TableView fx:id="tabelaGarcons" prefHeight="200">
+            <columns>
+                <TableColumn text="ID" fx:id="colunaId" />
+                <TableColumn text="Nome" fx:id="colunaNome" />
+                <TableColumn text="Turno" fx:id="colunaTurno" />
+            </columns>
+        </TableView>
+        <HBox spacing="10">
+            <TextField fx:id="campoNome" promptText="Nome do Garçom" />
+            <ComboBox fx:id="comboTurno" promptText="Turno" />
+            <Button text="Adicionar" onAction="#adicionarGarcom" />
+        </HBox>
+    </VBox>
+</AnchorPane>
