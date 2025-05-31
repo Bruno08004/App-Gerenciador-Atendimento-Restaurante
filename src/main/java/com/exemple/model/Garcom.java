@@ -28,9 +28,9 @@ public class Garcom {
 
     public void iniciarAtendimentoCliente(Cliente cliente) {
         if (podeAtenderMaisCliente()) {
-            AtendimentoIndividual atendimento = new AtendimentoIndividual(cliente);
+            Atendimento atendimento = new AtendimentoIndividual(cliente);
             atendimento.iniciarAtendimento();
-            filaAtendimentoCliente.enfileirar(atendimento);
+            filaAtendimentoCliente.adicionarAtendimento(atendimento);
         }
     }
 

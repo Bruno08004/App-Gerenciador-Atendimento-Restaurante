@@ -65,15 +65,6 @@ public class Restaurante {
         historicoAtendimentos.add(atendimento);
     }
 
-    public void verificarEsperaExcessiva() {
-        for (Garcom g : garcons) {
-            for (Atendimento grupo : g.getFilaAtendimentoGrupo().getFila()) {
-                if (grupo.tempoDeEsperaMinutos() > 20) {
-                    System.out.println("Alerta: Grupo esperando há mais de 20 minutos: " + grupo.getGrupo().getId());
-                }
-            }
-        }
-    }
 
     // Métodos auxiliares
     public void adicionarGarcom(Garcom garcom) {
