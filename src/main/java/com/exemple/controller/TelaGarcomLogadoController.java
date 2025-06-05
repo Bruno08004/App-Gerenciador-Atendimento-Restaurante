@@ -1,7 +1,10 @@
 package com.exemple.controller;
 
+import java.io.IOException;
+
 import com.exemple.model.Garcom;
 import com.exemple.model.Restaurante;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,20 +14,54 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
+/**
+ * Controlador da tela de garçom logado.
+ * <p>
+ * Permite ao garçom acessar funcionalidades como iniciar atendimento, controlar turno e voltar ao menu principal.
+ * Trata exceções de IO e exibe mensagens apropriadas ao usuário.
+ * </p>
+ *
+ * <b>Principais responsabilidades:</b>
+ * <ul>
+ *   <li>Exibir o nome do garçom logado.</li>
+ *   <li>Navegar para a tela de atendimento do garçom.</li>
+ *   <li>Navegar para a tela de controle de turno.</li>
+ *   <li>Voltar ao menu principal do sistema.</li>
+ *   <li>Tratar exceções e exibir mensagens de erro ao usuário.</li>
+ * </ul>
+ *
+ * <b>Dependências:</b>
+ * <ul>
+ *   <li>Modelos: Restaurante, Garcom.</li>
+ *   <li>JavaFX: Label, Alert, FXMLLoader, Scene, Stage.</li>
+ * </ul>
+ *
+ * @author
+ * @version 1.0
+ */
 public class TelaGarcomLogadoController {
 
+    /** Referência ao restaurante em uso */
     private Restaurante restaurante;
+    /** Garçom atualmente logado */
     private Garcom garcomLogado;
 
+    /** Label para exibir o nome do garçom logado */
     @FXML
-    private Label labelNomeGarcom; // Para exibir o nome do garçom logado
+    private Label labelNomeGarcom;
 
+    /**
+     * Define o restaurante utilizado pelo controlador.
+     * @param restaurante Restaurante em uso
+     */
     public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
     }
 
+    /**
+     * Define o garçom logado e atualiza o label de nome.
+     * @param garcom Garçom logado
+     */
     public void setGarcomLogado(Garcom garcom) {
         this.garcomLogado = garcom;
         if (garcomLogado != null) {
@@ -32,6 +69,12 @@ public class TelaGarcomLogadoController {
         }
     }
 
+    /**
+     * Navega para a tela de atendimento do garçom logado.
+     * Trata exceções de IO e exibe mensagens de erro.
+     *
+     * @param event Evento de ação do botão
+     */
     @FXML
     public void handleIniciarAtendimento(ActionEvent event) {
         if (garcomLogado == null) {
@@ -44,18 +87,25 @@ public class TelaGarcomLogadoController {
 
             TelaAtendimentoController controller = loader.getController();
             controller.setRestaurante(restaurante);
-            controller.setGarcomLogado(garcomLogado); // Passa o garçom logado para a tela de atendimento
+            controller.setGarcomLogado(garcomLogado);
 
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Atendimento - Garçom: " + garcomLogado.getNome());
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Erro ao carregar tela de Atendimento: " + e.getMessage()).showAndWait();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erro inesperado ao iniciar atendimento: " + e.getMessage()).showAndWait();
         }
     }
 
+    /**
+     * Navega para a tela de controle de turno.
+     * Trata exceções de IO e exibe mensagens de erro.
+     *
+     * @param event Evento de ação do botão
+     */
     @FXML
     public void handleControleTurno(ActionEvent event) {
         try {
@@ -64,19 +114,25 @@ public class TelaGarcomLogadoController {
 
             TelaTurnoController controller = loader.getController();
             controller.setRestaurante(restaurante);
-            // Poderíamos passar o garçom logado para a tela de turno se ela precisasse saber quem está gerenciando
-            // controller.setGarcomLogado(garcomLogado);
+            // Se necessário, pode passar o garçom logado para a tela de turno
 
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Controle de Turno");
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Erro ao carregar tela de Turno: " + e.getMessage()).showAndWait();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erro inesperado ao acessar controle de turno: " + e.getMessage()).showAndWait();
         }
     }
 
+    /**
+     * Volta para o menu principal do sistema.
+     * Trata exceções de IO e exibe mensagens de erro.
+     *
+     * @param event Evento de ação do botão
+     */
     @FXML
     public void handleVoltarMenuPrincipal(ActionEvent event) {
         try {
@@ -91,8 +147,9 @@ public class TelaGarcomLogadoController {
             stage.setTitle("Menu Principal");
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Erro ao voltar para o menu principal: " + e.getMessage()).showAndWait();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erro inesperado ao voltar: " + e.getMessage()).showAndWait();
         }
     }
 }

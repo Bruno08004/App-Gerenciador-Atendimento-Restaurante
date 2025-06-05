@@ -1,7 +1,10 @@
 package com.exemple.controller;
 
+import java.io.IOException;
+
 import com.exemple.model.Garcom;
 import com.exemple.model.Restaurante;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,21 +14,57 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
+/**
+ * Controlador da tela de login do garçom.
+ * <p>
+ * Permite ao garçom realizar login, acessar o cadastro de novos garçons e voltar ao menu principal.
+ * Trata exceções de IO, validação e exibe mensagens apropriadas ao usuário.
+ * </p>
+ *
+ * <b>Principais responsabilidades:</b>
+ * <ul>
+ *   <li>Validar o login do garçom pelo ID e nome.</li>
+ *   <li>Navegar para a tela de funções do garçom logado.</li>
+ *   <li>Navegar para a tela de cadastro de garçom.</li>
+ *   <li>Voltar ao menu principal do sistema.</li>
+ *   <li>Tratar exceções e exibir mensagens de erro ou sucesso ao usuário.</li>
+ * </ul>
+ *
+ * <b>Dependências:</b>
+ * <ul>
+ *   <li>Modelos: Restaurante, Garcom.</li>
+ *   <li>JavaFX: TextField, Alert, FXMLLoader, Scene, Stage.</li>
+ * </ul>
+ *
+ * @author
+ * @version 1.0
+ */
 public class TelaLoginGarcomController {
 
+    /** Campo de texto para o ID do garçom */
     @FXML
     private TextField idField;
+    /** Campo de texto para o nome do garçom */
     @FXML
     private TextField nomeField;
 
+    /** Referência ao restaurante em uso */
     private Restaurante restaurante;
 
+    /**
+     * Define o restaurante utilizado pelo controlador.
+     * @param restaurante Restaurante em uso
+     */
     public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
     }
 
+    /**
+     * Realiza o login do garçom validando ID e nome.
+     * Exibe mensagens de erro em caso de falha.
+     *
+     * @param event Evento de ação do botão
+     */
     @FXML
     public void handleLogin(ActionEvent event) {
         try {
@@ -55,11 +94,18 @@ public class TelaLoginGarcomController {
         } catch (NumberFormatException e) {
             new Alert(Alert.AlertType.ERROR, "Por favor, digite um ID válido (apenas números).").showAndWait();
         } catch (IOException e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Erro ao carregar as funções do garçom.").showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Erro ao carregar as funções do garçom: " + e.getMessage()).showAndWait();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erro inesperado ao realizar login: " + e.getMessage()).showAndWait();
         }
     }
 
+    /**
+     * Navega para a tela de cadastro de garçom.
+     * Trata exceções de IO e exibe mensagens de erro.
+     *
+     * @param event Evento de ação do botão
+     */
     @FXML
     public void handleRegistrar(ActionEvent event) {
         try {
@@ -74,11 +120,18 @@ public class TelaLoginGarcomController {
             stage.setTitle("Cadastro de Garçom");
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Erro ao carregar a tela de cadastro.").showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Erro ao carregar a tela de cadastro: " + e.getMessage()).showAndWait();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erro inesperado ao acessar cadastro: " + e.getMessage()).showAndWait();
         }
     }
 
+    /**
+     * Volta para o menu principal do sistema.
+     * Trata exceções de IO e exibe mensagens de erro.
+     *
+     * @param event Evento de ação do botão
+     */
     @FXML
     public void handleVoltarMenuPrincipal(ActionEvent event) {
         try {
@@ -93,8 +146,9 @@ public class TelaLoginGarcomController {
             stage.setTitle("Menu Principal");
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Erro ao voltar para o menu principal.").showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Erro ao voltar para o menu principal: " + e.getMessage()).showAndWait();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erro inesperado ao voltar: " + e.getMessage()).showAndWait();
         }
     }
 }

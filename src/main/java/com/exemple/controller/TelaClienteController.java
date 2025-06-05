@@ -1,11 +1,16 @@
 package com.exemple.controller;
 
+import java.io.IOException;
+import java.time.LocalTime;
+import java.util.Optional;
+
 import com.exemple.model.Cliente;
 import com.exemple.model.GrupoClientes;
+import com.exemple.model.ItemPedido;
+import com.exemple.model.Pedido;
 import com.exemple.model.Restaurante;
-import com.exemple.model.Pedido; // Importar Pedido
-import com.exemple.model.ItemPedido; // Importar ItemPedido
 import com.exemple.util.TipoCliente;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,43 +18,80 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TextArea; // Importar TextArea
 
-import java.io.IOException;
-import java.time.LocalTime;
-import java.util.Optional;
-
+/**
+ * Controlador da tela de interação do cliente.
+ * <p>
+ * Permite registrar chegada de clientes individuais ou grupos, buscar pedidos pelo ID e visualizar detalhes.
+ * Trata exceções de IO, validação e exibe mensagens apropriadas ao usuário.
+ * </p>
+ *
+ * <b>Principais responsabilidades:</b>
+ * <ul>
+ *   <li>Registrar chegada de clientes individuais e grupos na fila de espera do restaurante.</li>
+ *   <li>Buscar e exibir detalhes de pedidos pelo ID informado.</li>
+ *   <li>Exibir status do pedido e detalhes dos itens.</li>
+ *   <li>Navegar de volta ao menu principal.</li>
+ *   <li>Tratar exceções e exibir mensagens de erro ou sucesso ao usuário.</li>
+ * </ul>
+ *
+ * <b>Dependências:</b>
+ * <ul>
+ *   <li>Modelos: Restaurante, Cliente, GrupoClientes, Pedido, ItemPedido.</li>
+ *   <li>JavaFX: TextField, ComboBox, Spinner, Label, TextArea, Dialog, Alert, FXMLLoader, Scene, Stage.</li>
+ * </ul>
+ *
+ * @author
+ * @version 1.0
+ */
 public class TelaClienteController {
 
+    /** Campo de texto para o nome do cliente */
     @FXML
     private TextField nomeField;
+    /** ComboBox para seleção do tipo de cliente */
     @FXML
     private ComboBox<TipoCliente> tipoComboBox;
+    /** Campo para digitar o ID do pedido */
     @FXML
-    private TextField pedidoIdField; // Campo para ID do pedido
+    private TextField pedidoIdField;
+    /** Label para exibir o status do pedido */
     @FXML
-    private Label labelStatusPedido; // Label para status do pedido
+    private Label labelStatusPedido;
+    /** Área de texto para exibir detalhes do pedido */
     @FXML
-    private TextArea textAreaDetalhesPedido; // Área para detalhes do pedido
+    private TextArea textAreaDetalhesPedido;
 
+    /** Referência ao restaurante em uso */
     private Restaurante restaurante;
 
+    /**
+     * Define o restaurante utilizado pelo controlador e inicializa o ComboBox.
+     * @param restaurante Restaurante em uso
+     */
     public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
         tipoComboBox.setItems(FXCollections.observableArrayList(TipoCliente.values()));
         tipoComboBox.getSelectionModel().selectFirst();
-        limparDetalhesPedido(); // Limpa a área de detalhes ao iniciar
+        limparDetalhesPedido();
     }
 
+    /**
+     * Registra a chegada de um cliente individual na fila de espera.
+     * Valida os campos e exibe mensagens apropriadas.
+     *
+     * @param event Evento de ação do botão
+     */
     @FXML
     public void handleRegistrarChegada(ActionEvent event) {
         String nome = nomeField.getText().trim();
@@ -60,17 +102,26 @@ public class TelaClienteController {
             return;
         }
 
-        Cliente novoCliente = new Cliente(restaurante.gerarNovoClienteId(), nome, tipo);
-        novoCliente.setHoraChegada(LocalTime.now());
-        restaurante.getFilaDeEsperaGeral().add(novoCliente); // Adiciona na fila geral do restaurante
+        try {
+            Cliente novoCliente = new Cliente(restaurante.gerarNovoClienteId(), nome, tipo);
+            novoCliente.setHoraChegada(LocalTime.now());
+            restaurante.getFilaDeEsperaGeral().add(novoCliente);
 
-        new Alert(Alert.AlertType.INFORMATION, "Olá, " + nome + "! Sua chegada foi registrada. Por favor, aguarde ser chamado(a).").showAndWait();
+            new Alert(Alert.AlertType.INFORMATION, "Olá, " + nome + "! Sua chegada foi registrada. Por favor, aguarde ser chamado(a).").showAndWait();
 
-        // Opcional: Limpar campos após o registro
-        nomeField.clear();
-        tipoComboBox.getSelectionModel().selectFirst();
+            nomeField.clear();
+            tipoComboBox.getSelectionModel().selectFirst();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erro ao registrar chegada: " + e.getMessage()).showAndWait();
+        }
     }
 
+    /**
+     * Abre um diálogo para registrar a chegada de um grupo de clientes.
+     * Valida os campos e trata exceções.
+     *
+     * @param event Evento de ação do botão
+     */
     @FXML
     public void handleRegistrarGrupo(ActionEvent event) {
         Dialog<GrupoClientes> dialog = new Dialog<>();
@@ -86,7 +137,7 @@ public class TelaClienteController {
 
         TextField nomeGrupoField = new TextField();
         nomeGrupoField.setPromptText("Nome do Grupo (Ex: Família Silva)");
-        Spinner<Integer> numClientesSpinner = new Spinner<>(1, 100, 1); // Número de pessoas no grupo
+        Spinner<Integer> numClientesSpinner = new Spinner<>(1, 100, 1);
 
         grid.add(new Label("Nome do Grupo:"), 0, 0);
         grid.add(nomeGrupoField, 1, 0);
@@ -109,13 +160,27 @@ public class TelaClienteController {
             return null;
         });
 
-        Optional<GrupoClientes> result = dialog.showAndWait();
-        result.ifPresent(grupo -> {
-            restaurante.getFilaDeEsperaGeral().add(grupo); // Adiciona na fila geral
-            new Alert(Alert.AlertType.INFORMATION, "A chegada do Grupo '" + grupo.getNomeGrupo() + "' com " + grupo.getClientes().size() + " pessoas foi registrada! Por favor, aguardem ser chamados.").showAndWait();
-        });
+        try {
+            Optional<GrupoClientes> result = dialog.showAndWait();
+            result.ifPresent(grupo -> {
+                try {
+                    restaurante.getFilaDeEsperaGeral().add(grupo);
+                    new Alert(Alert.AlertType.INFORMATION, "A chegada do Grupo '" + grupo.getNomeGrupo() + "' com " + grupo.getClientes().size() + " pessoas foi registrada! Por favor, aguardem ser chamados.").showAndWait();
+                } catch (Exception e) {
+                    new Alert(Alert.AlertType.ERROR, "Erro ao registrar grupo: " + e.getMessage()).showAndWait();
+                }
+            });
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erro inesperado ao registrar grupo: " + e.getMessage()).showAndWait();
+        }
     }
 
+    /**
+     * Busca um pedido pelo ID informado e exibe seus detalhes e status.
+     * Trata exceções de conversão e busca.
+     *
+     * @param event Evento de ação do botão
+     */
     @FXML
     public void handleBuscarPedido(ActionEvent event) {
         limparDetalhesPedido();
@@ -156,7 +221,6 @@ public class TelaClienteController {
                 textAreaDetalhesPedido.setText(detalhes.toString());
 
             } else {
-                // Pedido não encontrado
                 labelStatusPedido.setText("Status: Pedido não encontrado");
                 textAreaDetalhesPedido.setText("Não foi possível encontrar um pedido com o ID " + pedidoId + ".");
                 new Alert(Alert.AlertType.INFORMATION, "Pedido não encontrado.").showAndWait();
@@ -165,15 +229,26 @@ public class TelaClienteController {
         } catch (NumberFormatException e) {
             new Alert(Alert.AlertType.ERROR, "Por favor, digite um ID de pedido válido (apenas números).").showAndWait();
             limparDetalhesPedido();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erro ao buscar pedido: " + e.getMessage()).showAndWait();
+            limparDetalhesPedido();
         }
     }
 
-
+    /**
+     * Limpa os campos de detalhes do pedido.
+     */
     private void limparDetalhesPedido() {
         labelStatusPedido.setText("Status: -");
         textAreaDetalhesPedido.clear();
     }
 
+    /**
+     * Volta para o menu principal do sistema.
+     * Trata exceções de IO e exibe mensagens de erro.
+     *
+     * @param event Evento de ação do botão
+     */
     @FXML
     public void handleVoltarMenuPrincipal(ActionEvent event) {
         try {
@@ -188,8 +263,9 @@ public class TelaClienteController {
             stage.setTitle("Menu Principal");
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Erro ao voltar para o menu principal: " + e.getMessage()).showAndWait();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erro inesperado ao voltar: " + e.getMessage()).showAndWait();
         }
     }
 }

@@ -1,7 +1,11 @@
 package com.exemple.controller;
 
+import java.io.IOException;
+import java.util.Optional;
+
 import com.exemple.model.Restaurante;
 import com.exemple.util.Turno;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,17 +16,49 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.Optional;
-
+/**
+ * Controlador da tela de controle de turno do restaurante.
+ * <p>
+ * Permite iniciar e encerrar turnos, além de voltar ao menu principal.
+ * Trata exceções e exibe mensagens apropriadas ao usuário.
+ * </p>
+ *
+ * <b>Principais responsabilidades:</b>
+ * <ul>
+ *   <li>Iniciar um novo turno no restaurante.</li>
+ *   <li>Encerrar o turno atual do restaurante.</li>
+ *   <li>Voltar ao menu principal do sistema.</li>
+ *   <li>Tratar exceções e exibir mensagens de erro ou sucesso ao usuário.</li>
+ * </ul>
+ *
+ * <b>Dependências:</b>
+ * <ul>
+ *   <li>Modelos: Restaurante, Turno.</li>
+ *   <li>JavaFX: ChoiceDialog, Alert, FXMLLoader, Scene, Stage.</li>
+ * </ul>
+ *
+ * @author
+ * @version 1.0
+ */
 public class TelaTurnoController {
 
+    /** Referência ao restaurante em uso */
     private Restaurante restaurante;
 
+    /**
+     * Define o restaurante utilizado pelo controlador.
+     * @param restaurante Restaurante em uso
+     */
     public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
     }
 
+    /**
+     * Inicia um novo turno no restaurante, caso não haja turno ativo.
+     * Exibe mensagens de erro ou sucesso ao usuário.
+     *
+     * @param event Evento de ação do botão
+     */
     @FXML
     public void handleIniciarTurno(ActionEvent event) {
         if (restaurante == null) {
@@ -42,11 +78,21 @@ public class TelaTurnoController {
 
         Optional<Turno> result = dialog.showAndWait();
         result.ifPresent(turno -> {
-            restaurante.iniciarTurno(turno);
-            new Alert(Alert.AlertType.INFORMATION, "Turno " + turno.name() + " iniciado com sucesso!").showAndWait();
+            try {
+                restaurante.iniciarTurno(turno);
+                new Alert(Alert.AlertType.INFORMATION, "Turno " + turno.name() + " iniciado com sucesso!").showAndWait();
+            } catch (Exception e) {
+                new Alert(Alert.AlertType.ERROR, "Erro ao iniciar turno: " + e.getMessage()).showAndWait();
+            }
         });
     }
 
+    /**
+     * Encerra o turno atual do restaurante, caso haja um ativo.
+     * Exibe mensagens de erro ou sucesso ao usuário.
+     *
+     * @param event Evento de ação do botão
+     */
     @FXML
     public void handleEncerrarTurno(ActionEvent event) {
         if (restaurante == null) {
@@ -63,11 +109,21 @@ public class TelaTurnoController {
         Optional<ButtonType> result = confirm.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            restaurante.encerrarTurno();
-            new Alert(Alert.AlertType.INFORMATION, "Turno encerrado com sucesso!").showAndWait();
+            try {
+                restaurante.encerrarTurno();
+                new Alert(Alert.AlertType.INFORMATION, "Turno encerrado com sucesso!").showAndWait();
+            } catch (Exception e) {
+                new Alert(Alert.AlertType.ERROR, "Erro ao encerrar turno: " + e.getMessage()).showAndWait();
+            }
         }
     }
 
+    /**
+     * Volta para o menu principal do sistema.
+     * Trata exceções de IO e exibe mensagens de erro.
+     *
+     * @param event Evento de ação do botão
+     */
     @FXML
     public void handleVoltar(ActionEvent event) {
         try {
@@ -82,8 +138,9 @@ public class TelaTurnoController {
             stage.setTitle("Menu Principal");
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Erro ao voltar para o menu principal: " + e.getMessage()).showAndWait();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "Erro inesperado ao voltar: " + e.getMessage()).showAndWait();
         }
     }
 }
