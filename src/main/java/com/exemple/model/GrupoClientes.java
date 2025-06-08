@@ -6,6 +6,28 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe que representa um grupo de clientes do restaurante.
+ * <p>
+ * Implementa {@link Atendivel} para permitir o atendimento de grupos de clientes.
+ * </p>
+ *
+ * <p><b>Exceções possíveis:</b></p>
+ * <ul>
+ *   <li>{@link NullPointerException} - Lançada ao adicionar ou remover clientes ou pedidos nulos.</li>
+ *   <li>{@link IllegalArgumentException} - Lançada ao criar um grupo com nome nulo.</li>
+ * </ul>
+ *
+ * <p><b>Uso típico:</b></p>
+ * <ol>
+ *   <li>Instanciar um grupo de clientes com id e nome válidos.</li>
+ *   <li>Adicionar clientes e pedidos ao grupo.</li>
+ *   <li>Definir hora de chegada e observações gerais.</li>
+ * </ol>
+ *
+ * @author Seu Nome
+ * @version 1.0
+ */
 public class GrupoClientes implements Atendivel {
     private int id;
     private String nomeGrupo;
@@ -14,7 +36,15 @@ public class GrupoClientes implements Atendivel {
     private LocalTime horaChegada;
     private String observacoesGerais;
 
+    /**
+     * Construtor do GrupoClientes.
+     *
+     * @param id        identificador do grupo
+     * @param nomeGrupo nome do grupo (não pode ser nulo)
+     * @throws IllegalArgumentException se o nome do grupo for nulo
+     */
     public GrupoClientes(int id, String nomeGrupo) {
+        if (nomeGrupo == null) throw new IllegalArgumentException("Nome do grupo não pode ser nulo.");
         this.id = id;
         this.nomeGrupo = nomeGrupo;
         this.clientes = new ArrayList<>();
@@ -37,20 +67,43 @@ public class GrupoClientes implements Atendivel {
         return pedidos;
     }
 
+    /**
+     * Adiciona um cliente ao grupo.
+     *
+     * @param cliente cliente a ser adicionado (não pode ser nulo)
+     * @throws NullPointerException se o cliente for nulo
+     */
     public void adicionarCliente(Cliente cliente) {
+        if (cliente == null) throw new NullPointerException("Cliente não pode ser nulo.");
         clientes.add(cliente);
     }
 
+    /**
+     * Adiciona um pedido ao grupo.
+     *
+     * @param pedido pedido a ser adicionado (não pode ser nulo)
+     * @throws NullPointerException se o pedido for nulo
+     */
     public void adicionarPedido(Pedido pedido) {
+        if (pedido == null) throw new NullPointerException("Pedido não pode ser nulo.");
         pedidos.add(pedido);
     }
 
+    /**
+     * Remove um pedido do grupo.
+     *
+     * @param pedido pedido a ser removido (não pode ser nulo)
+     * @throws NullPointerException se o pedido for nulo
+     */
     public void removerPedido(Pedido pedido) {
+        if (pedido == null) throw new NullPointerException("Pedido não pode ser nulo.");
         pedidos.remove(pedido);
     }
 
     @Override
-    public String getNome() { return nomeGrupo; }
+    public String getNome() {
+        return nomeGrupo;
+    }
 
     @Override
     public TipoCliente getTipoCliente() {
@@ -69,7 +122,6 @@ public class GrupoClientes implements Atendivel {
     public void setHoraChegada(LocalTime horaChegada) {
         this.horaChegada = horaChegada;
     }
-
 
     public String getObservacoesGerais() {
         return observacoesGerais;
