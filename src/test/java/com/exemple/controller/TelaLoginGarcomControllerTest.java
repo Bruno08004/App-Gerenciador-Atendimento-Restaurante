@@ -1,13 +1,16 @@
 package com.exemple.controller;
 
-import com.exemple.model.Garcom;
-import com.exemple.model.Restaurante;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import com.exemple.model.Garcom;
+import com.exemple.model.Restaurante;
 
-class TelaLoginGarcomControllerLogicTest {
+class TelaLoginGarcomControllerTest {
 
     private Restaurante restaurante;
 

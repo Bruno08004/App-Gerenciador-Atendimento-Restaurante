@@ -1,12 +1,12 @@
 package com.exemple.controller;
 
-import com.exemple.model.Restaurante;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import com.exemple.model.Restaurante;
 
-class TelaPrincipalControllerLogicTest {
+class TelaPrincipalControllerTest {
 
     private TelaPrincipalController controller;
     private Restaurante restaurante;
