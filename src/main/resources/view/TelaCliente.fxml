@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 
 <?import javafx.scene.control.ComboBox?>
-<VBox alignment="CENTER" spacing="15.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.exemple.controller.TelaClienteController">
+<VBox alignment="CENTER" spacing="15.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.example.controller.TelaClienteController">
     <padding>
         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
     </padding>
