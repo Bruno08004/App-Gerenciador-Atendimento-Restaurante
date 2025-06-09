@@ -36,7 +36,14 @@ import com.example.util.Turno;
  *   <li>O teste utiliza instâncias reais das classes de modelo para simular o fluxo de uso do pedido.</li>
  * </ul>
  *
- * @author Seu Nome
+ * @author Ana Luiza Freitas Brito Siqueira
+ * @author Bruno Campos Penha
+ * @author Grazielly de Sousa Barros
+ * @author Ivana Gomes Souza
+ * @author João Gabriel Oliveira Magalhães
+ * @author João Vitor Moreira Lemos
+ * @author Robert Alves Guimarães
+ * @author Vinicius D’Oliveira Rocha
  * @version 1.0
  */
 class TelaGerenciarPedidoControllerTest {

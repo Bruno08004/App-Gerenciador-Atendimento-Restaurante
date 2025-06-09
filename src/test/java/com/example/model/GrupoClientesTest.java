@@ -32,7 +32,14 @@ import static org.junit.jupiter.api.Assertions.*;
  *   <li>Utiliza instâncias reais de {@link Cliente} e {@link Pedido} para simular o fluxo de uso do grupo.</li>
  * </ul>
  *
- * @author Seu Nome
+ * @author Ana Luiza Freitas Brito Siqueira
+ * @author Bruno Campos Penha
+ * @author Grazielly de Sousa Barros
+ * @author Ivana Gomes Souza
+ * @author João Gabriel Oliveira Magalhães
+ * @author João Vitor Moreira Lemos
+ * @author Robert Alves Guimarães
+ * @author Vinicius D’Oliveira Rocha
  * @version 1.0
  */
 class GrupoClientesTest {
