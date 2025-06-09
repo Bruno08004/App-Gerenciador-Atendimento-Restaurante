@@ -55,14 +55,4 @@ public class Cardapio {
     public ItemPedido buscarItem(String nome) {
         return itens.stream().filter(i -> i.getNome().equalsIgnoreCase(nome)).findFirst().orElse(null);
     }
-
-
-    /**
-     * Retorna a lista de itens do cardápio.
-     *
-     * @return lista de itens
-     */
-    //public List<ItemPedido> getItens() {
-    //    return new ArrayList<>(itens);
-    //}
 }

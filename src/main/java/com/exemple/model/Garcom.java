@@ -197,12 +197,3 @@ public class Garcom {
     }
 }
 
-    //@Override
-    //public String toString() {
-        //return "Garcom{" +
-                //"id=" + id +
-                //", nome='" + nome + '\'' +
-                //", turnoAtual=" + turnoAtual +
-                //'}';
-    //}
-//}

@@ -3,11 +3,13 @@ package com.exemple.util.persistence;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.exemple.model.Garcom;
-import com.google.gson.Gson;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 /**
@@ -38,6 +40,46 @@ public class Persistencia {
     /** Caminho do arquivo JSON utilizado para persistência dos garçons */
     private static final String CAMINHO_ARQUIVO = "garcons.json";
 
+    private static class DurationAdapter implements JsonSerializer<Duration>, JsonDeserializer<Duration> {
+        /**
+         * Adaptador personalizado para serializar e desserializar objetos do tipo Duration com Gson.
+         * Converte Duration para String no formato ISO-8601 ao serializar e reconstrói o objeto ao desserializar.
+         */
+        @Override
+        public JsonElement serialize(Duration src, java.lang.reflect.Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(src.toString());
+        }
+        @Override
+        public Duration deserialize(JsonElement json, java.lang.reflect.Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return Duration.parse(json.getAsString());
+        }
+    }
+
+    /**
+     * Adaptador personalizado para serializar e desserializar objetos do tipo LocalTime com Gson.
+     * Converte LocalTime para String no formato padrão ao serializar e reconstrói o objeto ao desserializar.
+     */
+    private static class LocalTimeAdapter implements JsonSerializer<LocalTime>, JsonDeserializer<LocalTime> {
+        @Override
+        public JsonElement serialize(LocalTime src, java.lang.reflect.Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(src.toString());
+        }
+
+        @Override
+        public LocalTime deserialize(JsonElement json, java.lang.reflect.Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return LocalTime.parse(json.getAsString());
+        }
+    }
+
+    /**
+     * Instância de Gson configurada com adaptadores para Duration e LocalTime,
+     * permitindo a correta serialização e desserialização desses tipos.
+     */
+    private static final Gson gson = new GsonBuilder()
+            .registerTypeAdapter(Duration.class, new DurationAdapter())
+            .registerTypeAdapter(LocalTime.class, new LocalTimeAdapter())
+            .create();
+
     /**
      * Salva a lista de garçons no arquivo JSON.
      * Trata exceções de IO e exibe mensagens de erro no console.
@@ -45,7 +87,6 @@ public class Persistencia {
      * @param garcons Lista de garçons a ser salva
      */
     public static void salvarGarcons(List<Garcom> garcons) {
-        Gson gson = new Gson();
         try (FileWriter writer = new FileWriter(CAMINHO_ARQUIVO)) {
             gson.toJson(garcons, writer);
         } catch (IOException e) {
@@ -64,7 +105,6 @@ public class Persistencia {
      * @return Lista de garçons carregada do arquivo, ou lista vazia se houver erro
      */
     public static List<Garcom> carregarGarcons() {
-        Gson gson = new Gson();
         try (FileReader reader = new FileReader(CAMINHO_ARQUIVO)) {
             return gson.fromJson(reader, new TypeToken<List<Garcom>>(){}.getType());
         } catch (IOException e) {

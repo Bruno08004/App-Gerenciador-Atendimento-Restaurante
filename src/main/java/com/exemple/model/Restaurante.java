@@ -295,13 +295,3 @@ public class Restaurante {
         return filaDeEsperaGeral;
     }
 }
-
-    /**
-     * Retorna o identificador do restaurante.
-     *
-     * @return id do restaurante (pode ser usado para persistência)
-     */
-    //public int getId() {
-        //return nome.hashCode(); // Exemplo simples de id baseado no nome
-    //}
-//}

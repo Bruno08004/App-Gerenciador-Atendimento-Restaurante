@@ -86,12 +86,3 @@ public class ItemPedido {
     }
 }
 
-    //@Override
-    //public String toString() {
-        //return "ItemPedido{" +
-                //"nome='" + nome + '\'' +
-                //", quantidade=" + quantidade +
-                //", preco=" + preco +
-                //", observacoes=" + observacoes +
-                //'}';
-    //

@@ -89,19 +89,3 @@ public class Pedido {
                 .sum();
     }
 }
-
-    /**
-     * Retorna uma representação em string do pedido.
-     *
-     * @return string representando o pedido e seus itens
-     */
-    //@Override
-    //public String toString() {
-        //StringBuilder sb = new StringBuilder("Pedido ID: " + id + "\nItens:\n");
-        //for (ItemPedido item : itens) {
-            //sb.append(item.toString()).append("\n");
-        //}
-        //sb.append("Total: R$ ").append(calcularTotal());
-        //return sb.toString();
-    //}
-//}
