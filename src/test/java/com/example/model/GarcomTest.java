@@ -13,6 +13,34 @@ import org.junit.jupiter.api.Test;
 import com.example.util.TipoCliente;
 import com.example.util.Turno;
 
+/**
+ * Classe de teste unitário para a lógica de negócio da {@link Garcom}.
+ * <p>
+ * Este teste NÃO depende de JavaFX e cobre apenas regras de negócio relacionadas ao gerenciamento de garçons,
+ * como validação do construtor, limites de atendimento, atendimento de clientes e grupos, remoção e limpeza de filas,
+ * além dos getters e setters.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Validação do construtor para nome nulo ou vazio.</li>
+ *   <li>Verifica se pode atender mais clientes individuais e grupos conforme o limite.</li>
+ *   <li>Não permite atender cliente ou grupo nulo.</li>
+ *   <li>Remove atendimento finalizado das filas corretamente.</li>
+ *   <li>Limpa as filas de atendimento corretamente.</li>
+ *   <li>Getters retornam valores corretos.</li>
+ *   <li>Setter de turno atual altera o valor corretamente.</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos testados são de lógica de negócio, sem dependência de interface gráfica.</li>
+ *   <li>Utiliza instâncias reais de {@link Cliente} e {@link GrupoClientes} para simular o fluxo de uso do garçom.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
+ */
 class GarcomTest {
 
     private Garcom garcom;

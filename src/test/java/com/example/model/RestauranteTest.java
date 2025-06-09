@@ -12,6 +12,36 @@ import org.junit.jupiter.api.Test;
 
 import com.example.util.Turno;
 
+/**
+ * Classe de teste unitário para a lógica de negócio da {@link Restaurante}.
+ * <p>
+ * Este teste NÃO depende de JavaFX e cobre apenas regras de negócio relacionadas ao gerenciamento do restaurante,
+ * como validação do construtor, gerenciamento de garçons, cardápio, turnos e geração de IDs.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Validação do construtor para nome nulo ou vazio.</li>
+ *   <li>Não permite adicionar garçom nulo.</li>
+ *   <li>Adiciona garçom corretamente e permite buscar por ID.</li>
+ *   <li>Não permite adicionar item nulo ao cardápio.</li>
+ *   <li>Adiciona item ao cardápio corretamente.</li>
+ *   <li>Não permite iniciar turno nulo.</li>
+ *   <li>Inicia e encerra turno corretamente, propagando para os garçons.</li>
+ *   <li>Geração sequencial de novos IDs para garçom, cliente e grupo.</li>
+ *   <li>Validação de login de garçom por ID e nome.</li>
+ *   <li>Retorno correto da fila de espera geral.</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos testados são de lógica de negócio, sem dependência de interface gráfica.</li>
+ *   <li>Utiliza instâncias reais de {@link Garcom} e {@link ItemPedido} para simular o fluxo de uso do restaurante.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
+ */
 class RestauranteTest {
 
     private Restaurante restaurante;

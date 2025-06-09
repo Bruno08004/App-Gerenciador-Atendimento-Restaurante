@@ -13,6 +13,30 @@ import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Classe de teste unitário para a lógica de negócio da {@link TelaClienteController}.
+ * <p>
+ * Este teste NÃO depende de JavaFX e cobre apenas regras de negócio relacionadas ao registro de chegada de clientes
+ * individuais e grupos, além da busca de pedidos por ID.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Registro de chegada de cliente individual na fila de espera geral do restaurante.</li>
+ *   <li>Registro de chegada de grupo de clientes na fila de espera geral do restaurante.</li>
+ *   <li>Busca de pedido por ID inexistente (deve retornar null).</li>
+ *   <li>Busca de pedido por ID existente (deve retornar o pedido correto).</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos testados são de lógica de negócio, sem dependência de interface gráfica.</li>
+ *   <li>O teste de busca de pedido por ID existente simula o fluxo completo de atendimento e registro.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
+ */
 public class TelaClienteControllerTest {
 
     private Restaurante restaurante;
@@ -22,6 +46,9 @@ public class TelaClienteControllerTest {
         restaurante = new Restaurante("Restaurante Teste");
     }
 
+    /**
+     * Testa o registro de chegada de um cliente individual na fila de espera geral.
+     */
     @Test
     public void testRegistrarChegadaClienteIndividual() {
         String nome = "Maria";
@@ -36,6 +63,9 @@ public class TelaClienteControllerTest {
         assertEquals(TipoCliente.PRIORITARIO, restaurante.getFilaDeEsperaGeral().get(0).getTipoCliente());
     }
 
+    /**
+     * Testa o registro de chegada de um grupo de clientes na fila de espera geral.
+     */
     @Test
     public void testRegistrarChegadaGrupo() {
         String nomeGrupo = "Família Silva";
@@ -55,6 +85,9 @@ public class TelaClienteControllerTest {
         assertEquals(numPessoas, grupoRegistrado.getClientes().size());
     }
 
+    /**
+     * Testa a busca de um pedido por ID inexistente (deve retornar null).
+     */
     @Test
     public void testBuscarPedidoPorIdNaoEncontrado() {
         int pedidoId = 999;
@@ -62,9 +95,11 @@ public class TelaClienteControllerTest {
         assertNull(pedido);
     }
 
+    /**
+     * Testa a busca de um pedido por ID existente, simulando o fluxo completo de atendimento e registro.
+     */
     @Test
     public void testBuscarPedidoPorIdEncontrado() {
-        //Pedido pedido = new Pedido();
         Cliente cliente = new Cliente(restaurante.gerarNovoClienteId(), "João", TipoCliente.COMUM);
 
         // Defina a hora de chegada ANTES de atender o cliente!
@@ -74,8 +109,7 @@ public class TelaClienteControllerTest {
         com.example.model.Garcom garcom = new com.example.model.Garcom(1, "Garçom Teste", null);
         restaurante.adicionarGarcom(garcom);
 
-        // Faz o garçom atender o cliente (isso cria o atendimento e adiciona à fila
-        // corretamente)
+        // Faz o garçom atender o cliente (isso cria o atendimento e adiciona à fila corretamente)
         garcom.atenderCliente(cliente);
 
         // Recupera o atendimento criado pelo método acima

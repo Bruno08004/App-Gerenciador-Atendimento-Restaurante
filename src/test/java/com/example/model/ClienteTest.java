@@ -12,6 +12,33 @@ import org.junit.jupiter.api.Test;
 
 import com.example.util.TipoCliente;
 
+/**
+ * Classe de teste unitário para a lógica de negócio da {@link Cliente}.
+ * <p>
+ * Este teste NÃO depende de JavaFX e cobre apenas regras de negócio relacionadas ao gerenciamento de clientes,
+ * como validação do construtor, preferências, nome, tipo, hora de chegada e observações gerais.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Validação do construtor para nome e tipo nulos.</li>
+ *   <li>Não permite adicionar ou remover preferências nulas.</li>
+ *   <li>Adição e remoção de preferências funciona corretamente.</li>
+ *   <li>Getters de nome e tipo retornam valores corretos.</li>
+ *   <li>Set e get da hora de chegada funcionam corretamente.</li>
+ *   <li>Set e get de observações gerais funcionam corretamente.</li>
+ *   <li>Lista de preferências é inicialmente vazia e não nula.</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos testados são de lógica de negócio, sem dependência de interface gráfica.</li>
+ *   <li>Utiliza instâncias reais de {@link Cliente} para simular o fluxo de uso.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
+ */
 class ClienteTest {
 
     private Cliente cliente;

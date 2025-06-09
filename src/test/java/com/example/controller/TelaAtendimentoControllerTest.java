@@ -8,13 +8,30 @@ import com.example.model.*;
 import com.example.util.Status;
 import com.example.util.TipoCliente;
 
-//import java.util.List;
-//import java.util.ArrayList;
-
 /**
- * Classe de teste para lógica de negócio da TelaAtendimentoController.
- * Testa métodos de gerenciamento de fila, cadastro e finalização de
- * atendimentos.
+ * Classe de teste unitário para a lógica de negócio da {@link TelaAtendimentoController}.
+ * <p>
+ * Este teste NÃO depende de JavaFX e cobre apenas regras de negócio relacionadas ao gerenciamento de atendimentos,
+ * filas, cadastro de clientes/grupos e finalização de atendimentos.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Verifica se o garçom pode atender mais grupos conforme o limite definido.</li>
+ *   <li>Testa o cadastro de novos clientes na fila de espera geral do restaurante.</li>
+ *   <li>Testa o cadastro de novos grupos e o correto atendimento pelo garçom.</li>
+ *   <li>Testa a finalização de um atendimento de grupo, verificando a mudança de status.</li>
+ *   <li>Testa a reordenação da fila de espera geral para priorizar clientes prioritários.</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos testados são de lógica de negócio, sem dependência de interface gráfica.</li>
+ *   <li>Mocks simples de Restaurante e Garcom são utilizados para isolar o teste.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
  */
 public class TelaAtendimentoControllerTest {
 
@@ -29,6 +46,9 @@ public class TelaAtendimentoControllerTest {
         restauranteMock.adicionarGarcom(garcomMock);
     }
 
+    /**
+     * Testa se o garçom pode atender mais grupos até atingir o limite.
+     */
     @Test
     public void testGarcomPodeAtenderMaisGrupos() {
         assertTrue(garcomMock.podeAtenderMaisGrupos());
@@ -48,6 +68,9 @@ public class TelaAtendimentoControllerTest {
         assertFalse(garcomMock.podeAtenderMaisGrupos());
     }
 
+    /**
+     * Testa o cadastro de um novo cliente na fila de espera geral do restaurante.
+     */
     @Test
     public void testCadastrarNovoCliente() {
         Cliente cliente = new Cliente(1, "Maria", TipoCliente.PRIORITARIO);
@@ -58,6 +81,9 @@ public class TelaAtendimentoControllerTest {
         assertEquals("Maria", restauranteMock.getFilaDeEsperaGeral().get(0).getNome());
     }
 
+    /**
+     * Testa o cadastro de um novo grupo e o correto atendimento pelo garçom.
+     */
     @Test
     public void testCadastrarNovoGrupo() {
         GrupoClientes grupo = new GrupoClientes(1, "Família Silva");
@@ -69,6 +95,9 @@ public class TelaAtendimentoControllerTest {
         assertEquals("Família Silva", atendimento.getGrupo().getNomeGrupo());
     }
 
+    /**
+     * Testa a finalização de um atendimento de grupo, verificando a mudança de status.
+     */
     @Test
     public void testFinalizarAtendimento() {
         GrupoClientes grupo = new GrupoClientes(1, "Grupo Teste");
@@ -83,6 +112,9 @@ public class TelaAtendimentoControllerTest {
         assertEquals(Status.FINALIZADO, atendimento.getStatus());
     }
 
+    /**
+     * Testa a reordenação da fila de espera geral para priorizar clientes prioritários.
+     */
     @Test
     public void testReordenarFilaPorPrioridade() {
         Cliente normal = new Cliente(1, "Cliente Normal", TipoCliente.COMUM);

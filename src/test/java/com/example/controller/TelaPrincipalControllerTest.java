@@ -6,6 +6,26 @@ import org.junit.jupiter.api.Test;
 
 import com.example.model.Restaurante;
 
+/**
+ * Classe de teste unitário para a lógica de negócio da {@link TelaPrincipalController}.
+ * <p>
+ * Este teste NÃO depende de JavaFX e cobre apenas a lógica de atribuição do restaurante ao controlador da tela principal.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Verifica se o método {@code setRestaurante} aceita e atribui corretamente diferentes instâncias de {@link Restaurante}.</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos de navegação (handle...) são fortemente acoplados ao JavaFX e não são testados aqui.</li>
+ *   <li>Para testar navegação e integração com a interface gráfica seria necessário um teste de integração com JavaFX.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
+ */
 class TelaPrincipalControllerTest {
 
     private TelaPrincipalController controller;
@@ -18,6 +38,9 @@ class TelaPrincipalControllerTest {
         controller.setRestaurante(restaurante);
     }
 
+    /**
+     * Testa se o método setRestaurante aceita e atribui corretamente diferentes instâncias de Restaurante.
+     */
     @Test
     void setRestauranteAtribuiCorretamente() {
         Restaurante novoRestaurante = new Restaurante("Novo Restaurante");
