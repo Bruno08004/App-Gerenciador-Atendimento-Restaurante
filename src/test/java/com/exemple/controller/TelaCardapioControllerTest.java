@@ -11,13 +11,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classe de teste para lógica de negócio da TelaCardapioController, sem dependência de JavaFX.
+ * Classe de teste unitário para a lógica de negócio da {@link TelaCardapioController}.
+ * <p>
+ * Este teste NÃO depende de JavaFX e cobre apenas regras de negócio relacionadas ao gerenciamento do cardápio,
+ * como carregar itens e filtrar itens por nome.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Verifica se os itens do cardápio são carregados corretamente ao setar o restaurante.</li>
+ *   <li>Testa o filtro de itens do cardápio por nome, de forma case insensitive.</li>
+ *   <li>Testa o filtro vazio, que deve retornar todos os itens.</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos testados são de lógica de negócio, sem dependência de interface gráfica.</li>
+ *   <li>Uma classe fake de Restaurante é utilizada para isolar o teste e permitir manipulação direta do cardápio.</li>
+ *   <li>O método auxiliar {@code filtrarItens} simula a lógica de filtragem do cardápio.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
  */
 public class TelaCardapioControllerTest {
 
     private RestauranteFake restauranteFake;
 
-    // Classe fake para simular Restaurante sem dependências externas
+    /**
+     * Classe fake para simular Restaurante sem dependências externas.
+     */
     static class RestauranteFake extends Restaurante {
         private List<ItemPedido> cardapio = new ArrayList<>();
 
@@ -40,6 +63,9 @@ public class TelaCardapioControllerTest {
         restauranteFake = new RestauranteFake();
     }
 
+    /**
+     * Testa se os itens do cardápio são carregados corretamente ao setar o restaurante.
+     */
     @Test
     public void testSetRestauranteCarregaItens() {
         List<ItemPedido> itens = new ArrayList<>();
@@ -55,6 +81,9 @@ public class TelaCardapioControllerTest {
         assertEquals("Soda", cardapio.get(1).getNome());
     }
 
+    /**
+     * Testa o filtro de itens do cardápio por nome (case insensitive) e o filtro vazio.
+     */
     @Test
     public void testFiltrarItens() {
         List<ItemPedido> itens = new ArrayList<>();
@@ -80,6 +109,10 @@ public class TelaCardapioControllerTest {
 
     /**
      * Método auxiliar para filtrar itens do cardápio por nome (case insensitive).
+     *
+     * @param itens  lista de itens do cardápio
+     * @param filtro filtro de busca (case insensitive)
+     * @return lista de itens filtrados
      */
     private List<ItemPedido> filtrarItens(List<ItemPedido> itens, String filtro) {
         filtro = filtro == null ? "" : filtro.trim().toLowerCase();

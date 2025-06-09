@@ -33,7 +33,14 @@ import com.google.gson.reflect.TypeToken;
  *   <li>Java: FileWriter, FileReader, IOException, List.</li>
  * </ul>
  *
- * @author
+ * @author Ana Luiza Freitas Brito Siqueira
+ * @author Bruno Campos Penha
+ * @author Grazielly de Sousa Barros
+ * @author Ivana Gomes Souza
+ * @author João Gabriel Oliveira Magalhães
+ * @author João Vitor Moreira Lemos
+ * @author Robert Alves Guimarães
+ * @author Vinicius D’Oliveira Rocha
  * @version 1.0
  */
 public class Persistencia {

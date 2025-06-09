@@ -10,8 +10,32 @@ import org.junit.jupiter.api.Test;
 
 import com.exemple.util.TipoCliente;
 
+/**
+ * Classe de teste unitário para a interface {@link Atendivel}.
+ * <p>
+ * Este teste NÃO depende de JavaFX e cobre apenas regras de negócio relacionadas à implementação dos métodos da interface Atendivel.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Verifica se os métodos implementados retornam os valores corretos.</li>
+ *   <li>Verifica se os métodos lançam {@link UnsupportedOperationException} quando não implementados.</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos testados são de lógica de negócio, sem dependência de interface gráfica.</li>
+ *   <li>Utiliza implementações anônimas da interface para simular diferentes comportamentos.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
+ */
 class AtendivelTest {
 
+    /**
+     * Testa se os métodos implementados retornam os valores corretos.
+     */
     @Test
     void metodosDevemRetornarValoresCorretos() {
         Atendivel atendivel = new Atendivel() {
@@ -37,6 +61,9 @@ class AtendivelTest {
         assertTrue(atendivel.getPreferencias().contains("Vegano"));
     }
 
+    /**
+     * Testa se os métodos lançam UnsupportedOperationException quando não implementados.
+     */
     @Test
     void metodosDevemLancarUnsupportedOperationExceptionQuandoNaoImplementados() {
         Atendivel atendivel = new Atendivel() {

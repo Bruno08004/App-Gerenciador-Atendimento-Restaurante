@@ -9,6 +9,30 @@ import org.junit.jupiter.api.Test;
 import com.exemple.model.Restaurante;
 import com.exemple.util.Turno;
 
+/**
+ * Classe de teste unitário para a lógica de negócio da {@link TelaTurnoController}.
+ * <p>
+ * Este teste NÃO depende de JavaFX e cobre apenas a lógica de controle de turnos do restaurante,
+ * como iniciar e encerrar turnos.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Não permite iniciar um novo turno se já houver um turno ativo.</li>
+ *   <li>Permite iniciar um turno quando não há turno ativo.</li>
+ *   <li>Não permite encerrar turno se não há turno ativo.</li>
+ *   <li>Permite encerrar turno quando há turno ativo.</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos testados são de lógica de negócio, sem dependência de interface gráfica.</li>
+ *   <li>O teste simula o comportamento dos métodos handleIniciarTurno e handleEncerrarTurno da tela.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
+ */
 class TelaTurnoControllerTest {
 
     private Restaurante restaurante;
@@ -18,6 +42,9 @@ class TelaTurnoControllerTest {
         restaurante = new Restaurante("Restaurante Teste");
     }
 
+    /**
+     * Testa que não é permitido iniciar um novo turno se já houver um turno ativo.
+     */
     @Test
     void naoPermiteIniciarTurnoSeJaHouverTurnoAtivo() {
         restaurante.iniciarTurno(Turno.MANHA);
@@ -26,6 +53,9 @@ class TelaTurnoControllerTest {
         assertEquals(Turno.MANHA, restaurante.getTurnoAtual());
     }
 
+    /**
+     * Testa que é permitido iniciar um turno quando não há turno ativo.
+     */
     @Test
     void permiteIniciarTurnoQuandoNaoHaTurnoAtivo() {
         assertNull(restaurante.getTurnoAtual());
@@ -33,6 +63,9 @@ class TelaTurnoControllerTest {
         assertEquals(Turno.NOITE, restaurante.getTurnoAtual());
     }
 
+    /**
+     * Testa que não é permitido encerrar turno se não há turno ativo.
+     */
     @Test
     void naoPermiteEncerrarTurnoSeNaoHaTurnoAtivo() {
         assertNull(restaurante.getTurnoAtual());
@@ -41,6 +74,9 @@ class TelaTurnoControllerTest {
         assertNull(restaurante.getTurnoAtual());
     }
 
+    /**
+     * Testa que é permitido encerrar turno quando há turno ativo.
+     */
     @Test
     void permiteEncerrarTurnoQuandoHaTurnoAtivo() {
         restaurante.iniciarTurno(Turno.TARDE);

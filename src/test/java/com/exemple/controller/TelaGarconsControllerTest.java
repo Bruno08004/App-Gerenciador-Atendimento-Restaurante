@@ -8,12 +8,37 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Classe de teste unitário para a lógica de negócio da {@link TelaGarconsController}.
+ * <p>
+ * Este teste NÃO depende de JavaFX e cobre apenas regras de negócio relacionadas ao gerenciamento de garçons,
+ * como o carregamento da lista de garçons e o controle do próximo ID de garçom.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Verifica se o restaurante pode ser corretamente setado e recuperado.</li>
+ *   <li>Verifica se o campo nextGarcomId é atualizado corretamente ao setar o restaurante.</li>
+ *   <li>Verifica o comportamento ao setar o restaurante como null.</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos testados são de lógica de negócio, sem dependência de interface gráfica.</li>
+ *   <li>Uma subclasse fake é utilizada para acessar campos privados via reflection e evitar dependência de JavaFX.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
+ */
 class TelaGarconsControllerTest {
 
     private TelaGarconsControllerFake controller;
     private Restaurante restaurante;
 
-    // Subclasse para expor campos e métodos protegidos/privados
+    /**
+     * Subclasse para expor campos e métodos protegidos/privados e evitar dependência de JavaFX.
+     */
     static class TelaGarconsControllerFake extends TelaGarconsController {
         public Restaurante getRestaurante() {
             try {
@@ -58,6 +83,9 @@ class TelaGarconsControllerTest {
         restaurante = new Restaurante("Restaurante Teste");
     }
 
+    /**
+     * Testa se o restaurante pode ser corretamente setado e se o nextGarcomId é atualizado.
+     */
     @Test
     void testSetRestauranteCarregaGarcons() {
         Garcom g1 = new Garcom(1, "João", Turno.MANHA);
@@ -73,6 +101,9 @@ class TelaGarconsControllerTest {
         assertEquals(3, controller.getNextGarcomId());
     }
 
+    /**
+     * Testa o comportamento ao setar o restaurante como null.
+     */
     @Test
     void testSetRestauranteNull() {
         controller.setRestaurante(null);

@@ -12,6 +12,33 @@ import org.junit.jupiter.api.Test;
 
 import com.exemple.util.Status;
 
+/**
+ * Classe de teste unitário para a lógica de negócio da {@link FilaDeAtendimento}.
+ * <p>
+ * Este teste NÃO depende de JavaFX e cobre apenas regras de negócio relacionadas ao gerenciamento da fila de atendimentos,
+ * como adição, remoção, contagem, limpeza e reordenação de atendimentos.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Não permite adicionar atendimento nulo à fila.</li>
+ *   <li>Adiciona atendimento corretamente na fila.</li>
+ *   <li>Remove atendimento da fila com prioridade correta.</li>
+ *   <li>Remove atendimento específico corretamente.</li>
+ *   <li>Conta apenas atendimentos ativos (não finalizados).</li>
+ *   <li>Limpa a fila corretamente.</li>
+ *   <li>Reordena a fila mantendo todos os elementos.</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos testados são de lógica de negócio, sem dependência de interface gráfica.</li>
+ *   <li>Utiliza uma classe concreta interna para testar a classe abstrata {@link Atendimento}.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
+ */
 class FilaDeAtendimentoTest {
 
     private FilaDeAtendimento<Atendimento> fila;
@@ -32,11 +59,17 @@ class FilaDeAtendimentoTest {
         atendimento2 = new AtendimentoConcreto(new Pedido());
     }
 
+    /**
+     * Testa se não é permitido adicionar atendimento nulo à fila.
+     */
     @Test
     void adicionarAtendimentoNaoPermiteNulo() {
         assertThrows(NullPointerException.class, () -> fila.adicionarAtendimento(null));
     }
 
+    /**
+     * Testa se adicionar atendimento adiciona corretamente na fila.
+     */
     @Test
     void adicionarAtendimentoAdicionaNaFila() {
         fila.adicionarAtendimento(atendimento1);
@@ -44,6 +77,9 @@ class FilaDeAtendimentoTest {
         assertTrue(fila.getFila().contains(atendimento1));
     }
 
+    /**
+     * Testa se remover atendimento remove da fila com prioridade correta.
+     */
     @Test
     void removerAtendimentoRemoveComPrioridade() {
         atendimento1.iniciarAtendimento(LocalTime.now().minusMinutes(10));
@@ -57,6 +93,9 @@ class FilaDeAtendimentoTest {
         assertEquals(1, fila.tamanho());
     }
 
+    /**
+     * Testa se remover atendimento específico remove corretamente.
+     */
     @Test
     void removerAtendimentoEspecificoRemoveCorretamente() {
         fila.adicionarAtendimento(atendimento1);
@@ -66,6 +105,9 @@ class FilaDeAtendimentoTest {
         assertEquals(1, fila.tamanho());
     }
 
+    /**
+     * Testa se contar atendimentos ativos conta apenas os não finalizados.
+     */
     @Test
     void contarAtendimentosAtivosContaSomenteNaoFinalizados() {
         fila.adicionarAtendimento(atendimento1);
@@ -75,6 +117,9 @@ class FilaDeAtendimentoTest {
         assertEquals(1, fila.contarAtendimentosAtivos());
     }
 
+    /**
+     * Testa se limpar a fila esvazia corretamente.
+     */
     @Test
     void limparFilaEsvaziaFila() {
         fila.adicionarAtendimento(atendimento1);
@@ -83,6 +128,9 @@ class FilaDeAtendimentoTest {
         assertEquals(0, fila.tamanho());
     }
 
+    /**
+     * Testa se reordenar a fila mantém todos os elementos.
+     */
     @Test
     void reordenarFilaMantemElementos() {
         fila.adicionarAtendimento(atendimento1);

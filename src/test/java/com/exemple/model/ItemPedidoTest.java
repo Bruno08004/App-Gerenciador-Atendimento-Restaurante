@@ -5,6 +5,30 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Classe de teste unitário para a lógica de negócio da {@link ItemPedido}.
+ * <p>
+ * Este teste NÃO depende de JavaFX e cobre apenas regras de negócio relacionadas à criação e manipulação de itens do pedido,
+ * como validação do construtor, adição de observações e cálculo de subtotal.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Validação do construtor para nome, quantidade e preço inválidos.</li>
+ *   <li>Adição de observação válida e rejeição de observação nula.</li>
+ *   <li>Cálculo correto do subtotal do item.</li>
+ *   <li>Verifica se a lista de observações é inicialmente vazia.</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos testados são de lógica de negócio, sem dependência de interface gráfica.</li>
+ *   <li>Utiliza instâncias reais de {@link ObservacaoDoPedido} para simular o fluxo de uso do item.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
+ */
 class ItemPedidoTest {
 
     private ItemPedido item;

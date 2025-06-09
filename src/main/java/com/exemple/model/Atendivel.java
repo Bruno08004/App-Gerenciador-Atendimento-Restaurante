@@ -21,7 +21,14 @@ import java.util.List;
  *   <li>Utilizar os métodos para acessar informações relevantes para o atendimento.</li>
  * </ol>
  *
- * @author Seu Nome
+ * @author Ana Luiza Freitas Brito Siqueira
+ * @author Bruno Campos Penha
+ * @author Grazielly de Sousa Barros
+ * @author Ivana Gomes Souza
+ * @author João Gabriel Oliveira Magalhães
+ * @author João Vitor Moreira Lemos
+ * @author Robert Alves Guimarães
+ * @author Vinicius D’Oliveira Rocha
  * @version 1.0
  */
 public interface Atendivel {

@@ -8,12 +8,26 @@ import org.junit.jupiter.api.Test;
 import com.exemple.model.Garcom;
 import com.exemple.model.Restaurante;
 
-//import java.util.ArrayList;
-//import java.util.List;
-
 /**
- * Classe de teste para lógica de negócio da TelaCadastroGarcomController.
- * Testa métodos de cadastro de garçom e validação de nome.
+ * Classe de teste unitário para a lógica de negócio da {@link TelaCadastroGarcomController}.
+ * <p>
+ * Este teste NÃO depende de JavaFX ou Mockito e cobre apenas regras de negócio relacionadas ao cadastro de garçons.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Validação de nome vazio ou em branco: não deve permitir cadastro.</li>
+ *   <li>Validação de nome válido: deve permitir cadastro e adicionar o garçom ao restaurante.</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos testados são de lógica de negócio, sem dependência de interface gráfica.</li>
+ *   <li>O método auxiliar {@code validaENovaLogicaCadastrarGarcom} simula a lógica de cadastro sem interação com a tela.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
  */
 public class TelaCadastroGarcomControllerTest {
 
@@ -27,6 +41,9 @@ public class TelaCadastroGarcomControllerTest {
         controller.setRestaurante(restaurante);
     }
 
+    /**
+     * Testa que não é possível cadastrar um garçom com nome vazio ou apenas espaços.
+     */
     @Test
     public void testNomeVazioNaoDeveCadastrar() {
         String nomeVazio = "    ";
@@ -37,6 +54,9 @@ public class TelaCadastroGarcomControllerTest {
         assertEquals(0, restaurante.getGarcons().size());
     }
 
+    /**
+     * Testa que é possível cadastrar um garçom com nome válido.
+     */
     @Test
     public void testNomeValidoDeveCadastrar() {
         String nomeValido = "José da Silva";

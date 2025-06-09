@@ -9,6 +9,32 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Classe de teste unitário para a lógica de negócio da {@link GrupoClientes}.
+ * <p>
+ * Este teste NÃO depende de JavaFX e cobre apenas regras de negócio relacionadas ao gerenciamento de grupos de clientes,
+ * como validação do construtor, adição e remoção de clientes e pedidos, preferências, tipo do grupo, hora de chegada e observações gerais.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Validação do construtor para nome nulo.</li>
+ *   <li>Adição de cliente válido e nulo.</li>
+ *   <li>Adição e remoção de pedido válido e nulo.</li>
+ *   <li>Getters de nome, tipo do grupo e preferências agregadas dos clientes.</li>
+ *   <li>Definição e obtenção da hora de chegada do grupo.</li>
+ *   <li>Definição e obtenção de observações gerais do grupo.</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos testados são de lógica de negócio, sem dependência de interface gráfica.</li>
+ *   <li>Utiliza instâncias reais de {@link Cliente} e {@link Pedido} para simular o fluxo de uso do grupo.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
+ */
 class GrupoClientesTest {
 
     private GrupoClientes grupo;

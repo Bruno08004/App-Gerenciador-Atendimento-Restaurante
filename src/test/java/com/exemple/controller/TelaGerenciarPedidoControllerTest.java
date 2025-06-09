@@ -15,6 +15,30 @@ import com.exemple.model.Restaurante;
 import com.exemple.util.TipoCliente;
 import com.exemple.util.Turno;
 
+/**
+ * Classe de teste unitário para a lógica de negócio da {@link TelaGerenciarPedidoController}.
+ * <p>
+ * Este teste NÃO depende de JavaFX e cobre apenas regras de negócio relacionadas ao gerenciamento de pedidos,
+ * como adicionar itens, adicionar observações, calcular total e verificar estado inicial do pedido.
+ * </p>
+ *
+ * <b>Cobertura dos testes:</b>
+ * <ul>
+ *   <li>Adição de item ao pedido e verificação do cálculo do total.</li>
+ *   <li>Adição de observação a um item do pedido.</li>
+ *   <li>Cálculo do total do pedido com múltiplos itens.</li>
+ *   <li>Verificação do estado inicial do pedido (vazio e total zero).</li>
+ * </ul>
+ *
+ * <b>Observações:</b>
+ * <ul>
+ *   <li>Os métodos testados são de lógica de negócio, sem dependência de interface gráfica.</li>
+ *   <li>O teste utiliza instâncias reais das classes de modelo para simular o fluxo de uso do pedido.</li>
+ * </ul>
+ *
+ * @author Seu Nome
+ * @version 1.0
+ */
 class TelaGerenciarPedidoControllerTest {
 
     private Restaurante restaurante;
@@ -34,6 +58,9 @@ class TelaGerenciarPedidoControllerTest {
         restaurante.adicionarAoCardapio(new ItemPedido("Pizza", 1, 30.0));
     }
 
+    /**
+     * Testa se adicionar um item ao pedido funciona corretamente e o total é calculado.
+     */
     @Test
     void adicionarItemAoPedidoAdicionaCorretamente() {
         ItemPedido item = restaurante.getCardapio().get(0);
@@ -46,6 +73,9 @@ class TelaGerenciarPedidoControllerTest {
         assertEquals(60.0, pedido.calcularTotal(), 0.01);
     }
 
+    /**
+     * Testa se adicionar uma observação a um item do pedido funciona corretamente.
+     */
     @Test
     void adicionarObservacaoAoItemFunciona() {
         ItemPedido item = new ItemPedido("Suco", 1, 8.0);
@@ -56,6 +86,9 @@ class TelaGerenciarPedidoControllerTest {
         assertEquals("Sem açúcar", item.getObservacoes().get(0).getDescricao());
     }
 
+    /**
+     * Testa o cálculo do total do pedido com múltiplos itens.
+     */
     @Test
     void calcularTotalPedidoCorreto() {
         pedido.adicionarItem(new ItemPedido("Pizza", 2, 30.0));
@@ -63,6 +96,9 @@ class TelaGerenciarPedidoControllerTest {
         assertEquals(68.0, pedido.calcularTotal(), 0.01);
     }
 
+    /**
+     * Testa se o pedido está inicialmente vazio e o total é zero.
+     */
     @Test
     void pedidoInicialmenteVazio() {
         assertTrue(pedido.getItens().isEmpty());
