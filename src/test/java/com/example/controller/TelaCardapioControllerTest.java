@@ -31,7 +31,14 @@ import java.util.List;
  *   <li>O método auxiliar {@code filtrarItens} simula a lógica de filtragem do cardápio.</li>
  * </ul>
  *
- * @author Seu Nome
+ * @author Ana Luiza Freitas Brito Siqueira
+ * @author Bruno Campos Penha
+ * @author Grazielly de Sousa Barros
+ * @author Ivana Gomes Souza
+ * @author João Gabriel Oliveira Magalhães
+ * @author João Vitor Moreira Lemos
+ * @author Robert Alves Guimarães
+ * @author Vinicius D’Oliveira Rocha
  * @version 1.0
  */
 public class TelaCardapioControllerTest {
