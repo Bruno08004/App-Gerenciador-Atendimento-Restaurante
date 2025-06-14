@@ -23,5 +23,5 @@
     <Button onAction="#handleGerenciarGarcons" prefHeight="40.0" prefWidth="250.0" text="Gerenciar Garçons" />
     <Button onAction="#handleVisualizarCardapio" prefHeight="40.0" prefWidth="250.0" text="Visualizar Cardápio" />
     <Button onAction="#handleSouGarcom" prefHeight="40.0" prefWidth="250.0" text="Sou Garçom" />
-    <Button onAction="#handleSouCliente" prefHeight="40.0" prefWidth="250.0" text="Sou Cliente" />
+    <Button onAction="#handleSouCliente" prefHeight="40.0" prefWidth="250.0" text="Cadastrar Cliente" />
 </VBox>
