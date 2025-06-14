@@ -31,7 +31,6 @@ import org.junit.jupiter.api.Test;
  * @author Ana Luiza Freitas Brito Siqueira
  * @author Bruno Campos Penha
  * @author Grazielly de Sousa Barros
- * @author Ivana Gomes Souza
  * @author João Gabriel Oliveira Magalhães
  * @author João Vitor Moreira Lemos
  * @author Robert Alves Guimarães
