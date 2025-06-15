@@ -11,7 +11,7 @@ target/
 *.iws
 *.iml
 *.ipr
-garcons.json
+
 
 ### Eclipse ###
 .apt_generated
