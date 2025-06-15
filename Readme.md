@@ -1,6 +1,6 @@
 # 🍽️ App Gerenciador de Atendimento de Restaurante
 
-Bem-vindo ao nosso sistema inteligente de **gerenciamento de atendimentos em restaurantes**, criado como projeto final para a disciplina de **Estrutura de Dados** no IFBA – Campus Vitória da Conquista. Este sistema busca organizar o fluxo de trabalho dos garçons e elevar a experiência do cliente a um novo nível de eficiência!
+Bem-vindo ao nosso sistema inteligente de **gerenciamento de atendimentos em restaurantes**, criado como projeto da 2ª unidade de **Estrutura de Dados** no IFBA – Campus Vitória da Conquista. Este sistema busca organizar o fluxo de trabalho dos garçons e elevar a experiência do cliente a um novo nível de eficiência!
 
 ---
 
@@ -58,7 +58,7 @@ Simplificar o atendimento em restaurantes por meio de um sistema que:
 
 ---
 
-## 🚀 Como Executar (é neceessário ter o JDK 21+ e Maven instalados) 
+## 🚀 Como Executar
 
 ```bash
 # Clone o projeto
@@ -77,7 +77,7 @@ mvn javafx:run
 - Pré-requisitos: JDK 21+, Maven e JavaFX instalados/configurados.
 
 ### 🧪 Testes
-- Rodamos testes unitários com JUnit 5, garantindo robustez em:
+**Rodamos testes unitários com JUnit 5, garantindo robustez em:**
 
 - Validação de login
 
@@ -103,10 +103,11 @@ João Vitor M. Lemos
 Robert Alves Guimarães
 
 Vinicius D. Oliveira Rocha
+
 ---
-##### Professor orientador: Cláudio Rodolfo S. de Oliveira
+### Professor orientador: Cláudio Rodolfo S. de Oliveira
 ---
-#### 🧠 Aprendizados
+### 🧠 Aprendizados
 Este projeto nos permitiu aplicar conceitos fundamentais de Estruturas de Dados em um contexto prático e real, utilizando boas práticas de desenvolvimento com foco em modularidade, reuso e clareza de código. Além disso, aprendemos muito sobre design de sistemas com interface gráfica e persistência de dados!
 
 
