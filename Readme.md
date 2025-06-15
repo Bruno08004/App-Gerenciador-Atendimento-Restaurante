@@ -103,10 +103,11 @@ João Vitor M. Lemos
 Robert Alves Guimarães
 
 Vinicius D. Oliveira Rocha
+
 ---
-##### Professor orientador: Cláudio Rodolfo S. de Oliveira
+### Professor orientador: Cláudio Rodolfo S. de Oliveira
 ---
-#### 🧠 Aprendizados
+### 🧠 Aprendizados
 Este projeto nos permitiu aplicar conceitos fundamentais de Estruturas de Dados em um contexto prático e real, utilizando boas práticas de desenvolvimento com foco em modularidade, reuso e clareza de código. Além disso, aprendemos muito sobre design de sistemas com interface gráfica e persistência de dados!
 
 
