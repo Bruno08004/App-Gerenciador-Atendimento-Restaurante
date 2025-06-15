@@ -45,6 +45,7 @@ import javafx.stage.Stage;
  * @author Vinicius D’Oliveira Rocha
  * @version 1.0
  */
+
 public class TelaCadastroGarcomController {
 
     /** Campo de texto para o nome completo do garçom */
