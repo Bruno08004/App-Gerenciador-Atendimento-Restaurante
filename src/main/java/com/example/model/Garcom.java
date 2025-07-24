@@ -79,16 +79,17 @@ public class Garcom {
      * @param cliente cliente a ser atendido (não pode ser nulo)
      * @throws NullPointerException se o cliente for nulo
      */
-    public void atenderCliente(Cliente cliente) {
+    public Atendimento atenderCliente(Cliente cliente) {
         if (cliente == null) throw new NullPointerException("Cliente não pode ser nulo.");
         if (!podeAtenderMaisClientesIndividuais()) {
             System.out.println("Limite de atendimentos individuais atingido.");
-            return;
+            return null;
         }
         Pedido pedido = new Pedido();
         AtendimentoIndividual atendimento = new AtendimentoIndividual(cliente, pedido);
         atendimento.iniciarAtendimento(cliente.getHoraChegada());
         filaAtendimentoIndividual.adicionarAtendimento(atendimento);
+        return atendimento;
     }
 
     /**
@@ -97,18 +98,18 @@ public class Garcom {
      * @param grupo grupo de clientes a ser atendido (não pode ser nulo)
      * @throws NullPointerException se o grupo for nulo
      */
-    public void atenderGrupo(GrupoClientes grupo) {
+    public Atendimento atenderGrupo(GrupoClientes grupo) {
         if (grupo == null) throw new NullPointerException("Grupo de clientes não pode ser nulo.");
         if (!podeAtenderMaisGrupos()) {
             System.out.println("Limite de atendimentos em grupo atingido.");
-            return;
+            return null;
         }
         Pedido pedido = new Pedido();
         AtendimentoGrupo atendimento = new AtendimentoGrupo(grupo, pedido);
         atendimento.iniciarAtendimento(grupo.getHoraChegada());
         filaAtendimentoGrupo.adicionarAtendimento(atendimento);
+        return atendimento;
     }
-
     /**
      * Remove um atendimento finalizado das filas correspondentes.
      *

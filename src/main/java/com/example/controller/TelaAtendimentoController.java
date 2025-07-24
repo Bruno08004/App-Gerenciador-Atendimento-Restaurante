@@ -5,17 +5,13 @@ import java.time.LocalTime;
 import java.util.Comparator;
 import java.util.Optional;
 
-import com.example.model.Atendimento;
-import com.example.model.AtendimentoGrupo;
-import com.example.model.AtendimentoIndividual;
-import com.example.model.Atendivel;
-import com.example.model.Cliente;
-import com.example.model.Garcom;
-import com.example.model.GrupoClientes;
-import com.example.model.Restaurante;
+import com.example.model.*;
 import com.example.util.Status;
 import com.example.util.TipoCliente;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,6 +31,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * Controlador da tela de atendimento do garçom.
@@ -95,6 +92,13 @@ public class TelaAtendimentoController {
     /** Lista observável de textos para exibição dos atendimentos do garçom */
     private ObservableList<String> listaTextoAtendimentosDoGarcom;
 
+    @FXML
+    private Label labelTempoAtendimento;
+
+    private Timeline cronometro;
+
+    private Atendimento atendimentoSelecionado;
+
     /**
      * Define o restaurante e inicializa a fila de espera.
      * @param restaurante Restaurante em uso
@@ -127,9 +131,54 @@ public class TelaAtendimentoController {
     public void initialize() {
         listViewFilaEspera.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldVal, newVal) -> atualizarBotoes());
+
         listViewAtendimentosDoGarcom.getSelectionModel().selectedItemProperty().addListener(
-                (obs, oldVal, newVal) -> atualizarBotoes());
+                (obs, oldVal, newVal) -> {
+                    atualizarBotoes();
+                    iniciarCronometroAtendimento(); // inicia o cronômetro sempre que selecionar um atendimento
+                });
     }
+
+    private void iniciarCronometroAtendimento() {
+        String selected = listViewAtendimentosDoGarcom.getSelectionModel().getSelectedItem();
+
+        atendimentoSelecionado = atendimentosDoGarcom.stream()
+                .filter(at -> {
+                    String nome = at instanceof AtendimentoIndividual
+                            ? ((AtendimentoIndividual) at).getCliente().getNome()
+                            : ((AtendimentoGrupo) at).getGrupo().getNomeGrupo();
+                    String texto = nome + " - Status: " + at.getStatus();
+                    return texto.equals(selected);
+                }).findFirst().orElse(null);
+
+        if (cronometro != null) {
+            cronometro.stop();
+        }
+
+        if (atendimentoSelecionado != null && atendimentoSelecionado.getStatus() == Status.EM_ATENDIMENTO) {
+            cronometro = new Timeline(
+                    new KeyFrame(Duration.seconds(1), e -> atualizarTempo())
+            );
+            cronometro.setCycleCount(Animation.INDEFINITE);
+            cronometro.play();
+        } else {
+            labelTempoAtendimento.setText("Tempo: --:--");
+            cronometro = null;
+        }
+    }
+
+
+    private void atualizarTempo() {
+        if (atendimentoSelecionado != null && atendimentoSelecionado.getInicio() != null) {
+            long segundos = java.time.Duration.between(
+                    atendimentoSelecionado.getInicio(),
+                    LocalTime.now()).getSeconds();
+            long minutos = segundos / 60;
+            long restoSeg = segundos % 60;
+            labelTempoAtendimento.setText(String.format("Tempo: %02d:%02d", minutos, restoSeg));
+        }
+    }
+
 
     /**
      * Atualiza o estado dos botões da interface.
@@ -207,36 +256,50 @@ public class TelaAtendimentoController {
 
         Atendivel atendivel = restaurante.getFilaDeEsperaGeral().removeFirst();
         try {
+            Atendimento atendimento = null;
+
             if (atendivel instanceof Cliente cliente) {
-                if (garcomLogado.podeAtenderMaisClientesIndividuais()) {
-                    cliente.setHoraChegada(LocalTime.now());
-                    garcomLogado.atenderCliente(cliente);
-                } else {
+                cliente.setHoraChegada(LocalTime.now());
+                atendimento = garcomLogado.atenderCliente(cliente);
+
+                if (atendimento == null) {
                     showAlert(Alert.AlertType.WARNING, garcomLogado.getNome() + ": Limite de clientes individuais atingido.");
                     restaurante.getFilaDeEsperaGeral().addFirst(atendivel);
                     return;
                 }
+
             } else if (atendivel instanceof GrupoClientes grupo) {
-                if (garcomLogado.podeAtenderMaisGrupos()) {
-                    grupo.setHoraChegada(LocalTime.now());
-                    garcomLogado.atenderGrupo(grupo);
-                } else {
+                grupo.setHoraChegada(LocalTime.now());
+                atendimento = garcomLogado.atenderGrupo(grupo);
+
+                if (atendimento == null) {
                     showAlert(Alert.AlertType.WARNING, garcomLogado.getNome() + ": Limite de grupos atingido.");
                     restaurante.getFilaDeEsperaGeral().addFirst(atendivel);
                     return;
                 }
             }
+
+            // adiciona à lista exibida na tela (garçom)
+            if (atendimento != null) {
+                atendimentosDoGarcom.add(atendimento);
+            }
+
             atualizarListas();
             showAlert(Alert.AlertType.INFORMATION, atendivel.getNome() + " adicionado à sua fila de atendimentos.");
+
         } catch (IllegalArgumentException e) {
             showAlert(Alert.AlertType.ERROR, "Erro ao atender: " + e.getMessage());
             restaurante.getFilaDeEsperaGeral().addFirst(atendivel);
+
         } catch (Exception e) {
             showAlert(Alert.AlertType.ERROR, "Erro inesperado ao atender: " + e.getMessage());
             restaurante.getFilaDeEsperaGeral().addFirst(atendivel);
         }
+
         atualizarListas();
     }
+
+
 
     /**
      * Abre o diálogo para cadastrar e atender um novo cliente individual.
@@ -453,6 +516,8 @@ public class TelaAtendimentoController {
             if (selecionado != null) {
                 selecionado.finalizarAtendimento();
                 restaurante.registrarAtendimentoFinalizado(selecionado);
+                RegistroUtil.registrarAtendimento(selecionado, garcomLogado.getNome());
+
                 atualizarListas();
                 showAlert(Alert.AlertType.INFORMATION, "Atendimento finalizado.");
             } else {

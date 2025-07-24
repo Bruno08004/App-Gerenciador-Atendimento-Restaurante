@@ -4,11 +4,7 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.util.Optional;
 
-import com.example.model.Cliente;
-import com.example.model.GrupoClientes;
-import com.example.model.ItemPedido;
-import com.example.model.Pedido;
-import com.example.model.Restaurante;
+import com.example.model.*;
 import com.example.util.TipoCliente;
 
 import javafx.collections.FXCollections;
@@ -197,13 +193,22 @@ public class TelaClienteController {
 
             if (pedidoEncontrado != null) {
                 // Buscar o status do atendimento associado ao pedido
-                Optional<String> statusOptional = restaurante.getHistoricoAtendimentos().stream()
+                Optional<Atendimento> atendimentoOptional = restaurante.getHistoricoAtendimentos().stream()
                         .filter(at -> at.getPedido().getId() == pedidoEncontrado.getId())
-                        .map(at -> at.getStatus().toString())
                         .findFirst();
 
-                String status = statusOptional.orElse("Em Andamento");
-                labelStatusPedido.setText("Status: " + status);
+                if (atendimentoOptional.isPresent()) {
+                    Atendimento atendimento = atendimentoOptional.get();
+                    String status = atendimento.getStatus().toString();
+                    String tempo = atendimento.getTempoDeAtendimento() != null
+                            ? atendimento.getTempoDeAtendimento().toMinutes() + " min" + " e " +
+                              atendimento.getTempoDeAtendimento().getSeconds() % 60 + " seg"
+                            : "--";
+                    labelStatusPedido.setText("Status: " + status + " | Tempo: " + tempo);
+                } else {
+                    labelStatusPedido.setText("Status: Em Andamento");
+                }
+
 
                 // Montar os detalhes do pedido
                 StringBuilder detalhes = new StringBuilder();

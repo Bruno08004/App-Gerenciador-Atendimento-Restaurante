@@ -74,12 +74,11 @@ public abstract class Atendimento {
      * @return o próprio atendimento finalizado
      * @throws NullPointerException se {@code inicio} não tiver sido inicializado
      */
-    public Atendimento finalizarAtendimento() {
+    public void finalizarAtendimento() {
         if (inicio == null) throw new NullPointerException("O atendimento não foi iniciado.");
         this.fim = LocalTime.now();
         this.tempoDeAtendimento = Duration.between(inicio, fim);
         this.status = Status.FINALIZADO;
-        return this;
     }
 
     /**

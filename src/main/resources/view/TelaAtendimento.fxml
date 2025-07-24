@@ -41,6 +41,8 @@
                 <Button onAction="#handleFinalizarAtendimento" text="Finalizar Atendimento" prefWidth="180.0" />
                 <Button onAction="#handleGerenciarPedido" text="Gerenciar Pedido" prefWidth="180.0" />
             </HBox>
+            <!-- 🔔 Label do cronômetro -->
+            <Label fx:id="labelTempoAtendimento" text="Tempo: --:--" style="-fx-text-fill: #444444; -fx-font-size: 14px;" />
         </VBox>
     </HBox>
 

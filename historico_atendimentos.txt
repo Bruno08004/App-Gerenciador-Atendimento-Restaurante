@@ -1,0 +1,11 @@
+
+########################################################################
+[FINALIZADO] Atendimento Individual
+→ Nome: Ana Paula
+→ Garçom: João Silva
+→ Pedido ID: 1
+→ Itens: Pizza Margherita (x1)
+→ Início: 01:14:24 | Fim: 01:15:26
+→ Tempo: 1 min 2 seg
+→ Data: 24/07/2025
+########################################################################
