@@ -11,7 +11,8 @@ target/
 *.iws
 *.iml
 *.ipr
-
+/historico_atendimentos.txt
+/garcons.json
 
 ### Eclipse ###
 .apt_generated

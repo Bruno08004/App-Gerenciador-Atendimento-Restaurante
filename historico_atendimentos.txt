@@ -1,11 +1,51 @@
 
 ########################################################################
 [FINALIZADO] Atendimento Individual
-→ Nome: Ana Paula
+→ Nome: Lucas
 → Garçom: João Silva
 → Pedido ID: 1
-→ Itens: Pizza Margherita (x1)
-→ Início: 01:14:24 | Fim: 01:15:26
-→ Tempo: 1 min 2 seg
+→ Itens: Pizza Margherita (x2), Refrigerante Coca-Cola (x1)
+→ Início: 22:43:50 | Fim: 22:47:25
+→ Tempo: 3 min 34 seg
+→ Data: 24/07/2025
+########################################################################
+########################################################################
+[FINALIZADO] Atendimento Individual
+→ Nome: Henrique
+→ Garçom: João Silva
+→ Pedido ID: 6
+→ Itens: Nenhum item
+→ Início: 22:44:04 | Fim: 22:47:28
+→ Tempo: 3 min 23 seg
+→ Data: 24/07/2025
+########################################################################
+########################################################################
+[FINALIZADO] Atendimento Individual
+→ Nome: Ana Paula
+→ Garçom: João Silva
+→ Pedido ID: 4
+→ Itens: Nenhum item
+→ Início: 22:43:57 | Fim: 22:48:42
+→ Tempo: 4 min 45 seg
+→ Data: 24/07/2025
+########################################################################
+########################################################################
+[FINALIZADO] Atendimento Individual
+→ Nome: Pedro Souza
+→ Garçom: João Silva
+→ Pedido ID: 3
+→ Itens: Nenhum item
+→ Início: 22:43:56 | Fim: 22:48:55
+→ Tempo: 4 min 59 seg
+→ Data: 24/07/2025
+########################################################################
+########################################################################
+[FINALIZADO] Atendimento Individual
+→ Nome: Mateus
+→ Garçom: João Silva
+→ Pedido ID: 2
+→ Itens: Lasanha Bolonhesa (x1)
+→ Início: 22:43:53 | Fim: 22:48:59
+→ Tempo: 5 min 6 seg
 → Data: 24/07/2025
 ########################################################################
