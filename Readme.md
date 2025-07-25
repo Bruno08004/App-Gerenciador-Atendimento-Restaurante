@@ -81,16 +81,16 @@ Estas são as funcionalidades implementadas a pedido do professor e com base nas
 
 > Pré-requisitos: JDK 21+, Maven e JavaFX configurados
 
-# Clone o repositório
+### Clone o repositório
 git clone https://github.com/Bruno08004/App-Gerenciador-Atendimento-Restaurante.git
 
-# Acesse a pasta do projeto
+###  Acesse a pasta do projeto
 cd App-Gerenciador-Atendimento-Restaurante
 
-# Compile o projeto
+### Compile o projeto
 mvn clean install
 
-# Execute a aplicação
+### Execute a aplicação
 mvn javafx:run
 
 ---
